@@ -1,13 +1,6 @@
-import { Dimensions } from 'react-native';
+import { scaleSize } from './mixins';
 
-export const dimensions = {
-  fullHeight: Dimensions.get('window').height,
-  fullWidth: Dimensions.get('window').width
-}
-
-export const padding = {
-  sm: 10,
-  md: 20,
-  lg: 30,
-  xl: 40
-}
+export const SCALE_18 = scaleSize(18);
+export const SCALE_16 = scaleSize(16);
+export const SCALE_12 = scaleSize(12);
+export const SCALE_8 = scaleSize(8);

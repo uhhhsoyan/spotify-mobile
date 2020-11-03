@@ -1,6 +1,7 @@
 import { buttons as Buttons } from './buttons'
-import { colors as Colors } from './colors'
+import * as Colors from './colors'
 import { spacing as Spacing } from './spacing'
-import { typography as Typography } from './typography'
+import * as Typography from './typography'
+import * as Mixins from './mixins'
 
-export { Typography, Spacing, Colors, Buttons }
+export { Typography, Spacing, Colors, Mixins, Buttons }
