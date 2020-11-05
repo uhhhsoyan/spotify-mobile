@@ -10,6 +10,7 @@ export const BLUE = '#481be4';
 export const GRAY_LIGHT = '#b3b3b3';
 export const GRAY_MEDIUM = '#282828';
 export const GRAY_DARK = '#212121';
+export const GRAY_VERY_DARK = '#191919';
 
 // ACTIONS (TO BE UPDATED)
 export const SUCCESS = '#3adb76';

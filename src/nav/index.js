@@ -11,19 +11,42 @@ import {
     ArtistScreen,
 } from '../scenes';
 import Icon from '../assets/icons';
-import { Colors } from '../styles';
+import { Colors, Typography } from '../styles';
 
 const Tab = createBottomTabNavigator();
 
 const HomeStack = createStackNavigator();
 
-const HomeStackScreen = () => {
-  return (
-    <HomeStack.Navigator>
-      <HomeStack.Screen options={{headerShown: false}} name="Home" component={HomeScreen} />
-      <HomeStack.Screen name="Settings" component={SettingsScreen} />
-    </HomeStack.Navigator>
-  );
+const HomeStackScreen = ({ navigation }) => {
+    return (
+        <HomeStack.Navigator>
+            <HomeStack.Screen name="Home" component={HomeScreen} 
+                options={{ headerShown: false }} 
+            />
+            <HomeStack.Screen name="Settings" component={SettingsScreen} 
+                options={{
+                    headerStyle: {
+                        backgroundColor: Colors.GRAY_VERY_DARK,
+                        shadowColor: 'transparent'
+                    },
+                    headerTitleStyle: {
+                        color: Colors.WHITE,
+                        fontFamily: Typography.FONT_600
+                    },
+                    headerBackTitleVisible: false,
+                    headerBackImage: () => (
+                        <Icon 
+                            onPress={() => navigation.goBack()}
+                            name='arrowBack' 
+                            color={Colors.GRAY_LIGHT} 
+                            size={24} 
+                            style={{ marginLeft: 15 }}
+                        />
+                    ),
+                }}
+            />
+        </HomeStack.Navigator>
+    );
 }
 
 const RootNav = () => {

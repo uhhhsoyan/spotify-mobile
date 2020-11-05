@@ -20,7 +20,10 @@ const Icon = ({name, size, color, style }) => {
             return <MaterialIcons name="library-music" size={size} color={color} />
         case 'settings':
             return <Feather name="settings" size={size} color={color} style={style} />
-        
+        case 'arrowBack':
+            return <Ionicons name="ios-arrow-back" size={size} color={color} style={style} />
+        case 'arrowForward':
+            return <Ionicons name="ios-arrow-forward" size={size} color={color} style={style} />
         default:
             return <MaterialCommunityIcons name="home-variant" size={size} color={color} />
     }
@@ -38,9 +41,8 @@ export default Icon;
 <AntDesign name="addusergroup" size={24} color="black" /> // Find Friends
 <Feather name="share" size={24} color="black" />
 <EvilIcons name="close" size={24} color="black" />
-<Ionicons name="ios-arrow-forward" size={24} color="black" />
+
 <Ionicons name="ios-arrow-up" size={24} color="black" />
-<Ionicons name="ios-arrow-back" size={24} color="black" />
 <Ionicons name="ios-arrow-down" size={24} color="black" />
 <Entypo name="controller-play" size={24} color="black" />
 <Ionicons name="ios-play-circle" size={24} color="black" />
