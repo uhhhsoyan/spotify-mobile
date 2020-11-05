@@ -1,7 +1,7 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
 import { AppLoading } from 'expo';
-import Navigator from './src/navigations';
+import RootNav from './src/nav';
 import {
     useFonts,
     Montserrat_100Thin,
@@ -51,8 +51,7 @@ const App = () => {
     }
     
     return (
-        <Navigator>
-        </Navigator>
+        <RootNav />
     )   
 }
 

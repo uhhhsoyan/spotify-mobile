@@ -5,8 +5,9 @@ import { Spacer } from '../components/atoms';
 import { CardGrid, CardRow } from '../components/molecules';
 import { Colors, Typography, Mixins } from '../styles';
 import Icon from '../assets/icons';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
     // update to use Context
     const [timeOfDay, setTimeOfDay] = useState('afternoon');
     const [user, setUser] = useState('Eric Essoyan')
@@ -22,7 +23,14 @@ const HomeScreen = () => {
                     style={styles.linearGradient}
                 >
                     <StatusBar barStyle={'light-content'}/>
-                    <Icon name='settings' size={24} color={Colors.WHITE} style={{ marginLeft: 'auto' }}/>
+                    <TouchableWithoutFeedback onPress={() => navigation.navigate('Settings')}>
+                        <Icon 
+                        name='settings' 
+                        size={24} 
+                        color={Colors.WHITE} 
+                        style={{ marginLeft: 'auto' }}
+                    />
+                    </TouchableWithoutFeedback>
                     <Text style={styles.header}>{`Good ${timeOfDay}`}</Text>
                     <CardGrid />
                     <Spacer />
