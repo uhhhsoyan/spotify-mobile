@@ -4,6 +4,7 @@ export const TERTIARY = '';
 export const WHITE = '#ffffff';
 export const BLACK = '#000000'
 export const BACKGROUND = '#121212';
+export const BLUE = '#481be4';
 
 // GRAYSCALE
 export const GRAY_LIGHT = '#b3b3b3';

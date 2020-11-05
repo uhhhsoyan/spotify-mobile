@@ -6,8 +6,6 @@ import {
     SearchScreen, 
     LibraryScreen,
     SettingsScreen,
-    PlaylistScreen,
-    ArtistScreen,
 } from '../scenes';
 import Icon from '../assets/icons';
 import { Colors } from '../styles';
@@ -44,29 +42,25 @@ const TabNavigatorConfig = {
     },
 };
 
-const HomeStack = createStackNavigator({
-  Home: HomeScreen,
-  Settings: SettingsScreen,
-});
+const HomeStack = createStackNavigator(
+    {
+        Home: HomeScreen,
+        Settings: SettingsScreen,
+    },
+    {
+        defaultNavigationOptions: ({ navigation }) => ({
+            headerShown: false 
+        })
+    }
+    );
 
-const RouteConfigs = {
-  Home: {
-    screen: HomeScreen,
-  },
-  Search: {
-    screen: SearchScreen,
-  },
-  Library: {
-    screen: LibraryScreen,
-  },
-  Playlist: {
-      screen: PlaylistScreen,
-  },
-  Artist: {
-      screen: ArtistScreen,
-  }
-};
+const AppNavigator2 = createBottomTabNavigator(
+    {
+        Home: HomeStack,
+        Search: SearchScreen,
+        Library: LibraryScreen,
+    }, 
+    TabNavigatorConfig
+    );
 
-const AppNavigator = createBottomTabNavigator(RouteConfigs, TabNavigatorConfig);
-
-export default AppNavigator;
+export default AppNavigator2;

@@ -8,16 +8,19 @@ import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
-const Icon = ({name, size, color}) => {
+const Icon = ({name, size, color, style }) => {
     switch(name) {
         case 'home':
-            return <MaterialCommunityIcons name="home-variant" size={size} color={color} />
+            return <MaterialCommunityIcons name="home-variant" size={size} color={color} style={style} />
         case 'homeOutline':
             return  <MaterialCommunityIcons name="home-variant-outline" size={size} color={color} />
         case 'search':
             return <Feather name="search" size={size} color={color} />
         case 'library':
             return <MaterialIcons name="library-music" size={size} color={color} />
+        case 'settings':
+            return <Feather name="settings" size={size} color={color} style={style} />
+        
         default:
             return <MaterialCommunityIcons name="home-variant" size={size} color={color} />
     }
