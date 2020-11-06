@@ -1,39 +1,24 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { Colors, Typography } from '../styles';
-import Icon from '../assets/icons';     
-
-const SETTINGS_MENU = [
-    'Data Saver',
-    'Account',
-    'Playback',
-    'Explicit Content',
-    'Devices',
-    'Car',
-    'Voice Interactions',
-    'Social',
-    'Connect to Apps',
-    'Music Quality',
-    'Storage',
-    'Notifications',
-    'Local Files',
-    'About'
-]
-
-const renderMenu = (items) => {
-    return (
-        items.map(item => {
-            return (
-                <View style={styles.menuItem}>
-                    <Text style={styles.menuText}>{item}</Text>
-                    <Icon name='arrowForward' size={24} color={Colors.GRAY_LIGHT} />
-                </View>
-            )
-        })
-    )
-}
+import Icon from '../assets/icons';
+import { SETTINGS_MENU } from '../data';
 
 const SettingsScreen = () => {
+    
+    const renderMenu = (items) => {
+        return (
+            items.map((item, idx) => {
+                return (
+                    <View key={idx} style={styles.menuItem}>
+                        <Text style={styles.menuText}>{item}</Text>
+                        <Icon name='arrowForward' size={24} color={Colors.GRAY_LIGHT} />
+                    </View>
+                )
+            })
+        )
+    }
+    
     return (
         <View style={styles.container}>
             <ScrollView>

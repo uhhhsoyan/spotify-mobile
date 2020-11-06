@@ -24,6 +24,8 @@ const Icon = ({name, size, color, style }) => {
             return <Ionicons name="ios-arrow-back" size={size} color={color} style={style} />
         case 'arrowForward':
             return <Ionicons name="ios-arrow-forward" size={size} color={color} style={style} />
+        case 'microphone':
+            return <MaterialCommunityIcons name="microphone-outline" size={size} color={color} style={style} />
         default:
             return <MaterialCommunityIcons name="home-variant" size={size} color={color} />
     }

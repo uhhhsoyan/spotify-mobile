@@ -12,6 +12,7 @@ export const FONT_800 = 'Montserrat_800ExtraBold'
 export const FONT_900 = 'Montserrat_900Black';
 
 // FONT SIZE
+export const FONT_SIZE_32 = scaleFont(32);
 export const FONT_SIZE_24 = scaleFont(24);
 export const FONT_SIZE_18 = scaleFont(18);
 export const FONT_SIZE_16 = scaleFont(16);

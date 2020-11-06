@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, StatusBar, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Spacer } from '../components/atoms';
 import { CardGrid, CardRow } from '../components/molecules';
-import { Colors, Typography, Mixins } from '../styles';
+import { Colors, Typography } from '../styles';
 import Icon from '../assets/icons';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
@@ -55,7 +55,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: Colors.BACKGROUND,
-        
     },
     linearGradient: {
         padding: 20,
