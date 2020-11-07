@@ -1,5 +1,4 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
 import { AppLoading } from 'expo';
 import RootNav from './src/nav';
 import {
@@ -23,6 +22,7 @@ import {
     Montserrat_900Black,
     Montserrat_900Black_Italic,
 } from '@expo-google-fonts/montserrat';
+import { Provider as AuthProvider } from './src/context/AuthContext';
 
 const App = () => {
     let [fontsLoaded] = useFonts({
@@ -51,7 +51,10 @@ const App = () => {
     }
     
     return (
-        <RootNav />
+        <AuthProvider>
+            <RootNav />
+        </AuthProvider>
+        
     )   
 }
 

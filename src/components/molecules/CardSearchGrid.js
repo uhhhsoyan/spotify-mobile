@@ -4,7 +4,7 @@ import { CardSearch } from '../atoms';
 
 const CardSearchGrid = ({cards}) => {
     const renderCards = (cards) => {
-        return cards.map(card => <CardSearch text={card.cardTitle} color={card.cardColor} />);
+        return cards.map((card, idx) => <CardSearch key={idx} text={card.cardTitle} color={card.cardColor} />);
     }
 
     return (

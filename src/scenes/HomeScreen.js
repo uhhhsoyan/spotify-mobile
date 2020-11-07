@@ -1,16 +1,31 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, StatusBar, ScrollView } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { View, Text, StyleSheet, StatusBar, ScrollView, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Spacer } from '../components/atoms';
 import { CardGrid, CardRow } from '../components/molecules';
 import { Colors, Typography } from '../styles';
 import Icon from '../assets/icons';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import spotifySearch from '../api/spotifySearch';
+import { Context as AuthContext } from '../context/AuthContext';
 
 const HomeScreen = ({ navigation }) => {
+    const { state } = useContext(AuthContext);
     // update to use Context
     const [timeOfDay, setTimeOfDay] = useState('afternoon');
-    const [user, setUser] = useState('Eric Essoyan')
+    const [user, setUser] = useState('Eric Essoyan');
+
+    useEffect(() => {
+        const search = async () => {
+            const { data } = await spotifySearch.get('/browse/categories', {
+                headers: { 'Authorization': 'Bearer ' + state.token },
+                params: {
+
+                }
+            })
+            console.log(data);
+        };
+        search()
+    })
 
     return (
         <View style={styles.container}>
@@ -23,14 +38,14 @@ const HomeScreen = ({ navigation }) => {
                     style={styles.linearGradient}
                 >
                     <StatusBar barStyle={'light-content'}/>
-                    <TouchableWithoutFeedback onPress={() => navigation.navigate('Settings')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
                         <Icon 
                         name='settings' 
                         size={24} 
                         color={Colors.WHITE} 
                         style={{ marginLeft: 'auto' }}
                     />
-                    </TouchableWithoutFeedback>
+                    </TouchableOpacity>
                     <Text style={styles.header}>{`Good ${timeOfDay}`}</Text>
                     <CardGrid />
                     <Spacer />

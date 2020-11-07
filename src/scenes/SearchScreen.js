@@ -6,12 +6,12 @@ import { SEARCH_CARDS } from '../data';
 import { CardSearchGrid } from '../components/molecules';
 
 
-const SearchScreen = () => {
+const SearchScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <Text style={styles.header}>Search</Text>
-                <TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={() => navigation.navigate('SearchInput')}>
                     <View style={styles.searchBar}>
                         <Icon name='search' size={20} color={Colors.BLACK}/>
                         <Text style={{ marginLeft: 10 }}>Artists, songs, or podcasts</Text>
