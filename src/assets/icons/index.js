@@ -7,6 +7,7 @@ import { EvilIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 const Icon = ({name, size, color, style }) => {
     switch(name) {
@@ -28,6 +29,8 @@ const Icon = ({name, size, color, style }) => {
             return <MaterialCommunityIcons name="microphone-outline" size={size} color={color} style={style} />
         case 'camera':
             return <Feather name="camera" size={size} color={color} style={style} />
+        case 'ellipsis':
+            return <FontAwesome5 name="ellipsis-h" size={24} color="black" />
         default:
             return <MaterialCommunityIcons name="home-variant" size={size} color={color} />
     }

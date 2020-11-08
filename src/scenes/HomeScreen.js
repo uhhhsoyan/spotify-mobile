@@ -14,19 +14,6 @@ const HomeScreen = ({ navigation }) => {
     const [timeOfDay, setTimeOfDay] = useState('afternoon');
     const [user, setUser] = useState('Eric Essoyan');
 
-    useEffect(() => {
-        const search = async () => {
-            const { data } = await spotifySearch.get('/browse/categories', {
-                headers: { 'Authorization': 'Bearer ' + state.token },
-                params: {
-
-                }
-            })
-            console.log(data);
-        };
-        search()
-    })
-
     return (
         <View style={styles.container}>
             <ScrollView>

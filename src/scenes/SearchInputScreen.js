@@ -1,11 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, StyleSheet, TouchableWithoutFeedback, ScrollView, TextInput } from 'react-native';
 import Icon from '../assets/icons';
+import { Context as AuthContext } from '../context/AuthContext';
+import spotifySearch from '../api/spotifySearch';
+import { SearchResult } from '../components/atoms';
 import { Colors, Typography } from '../styles';
 
 const SearchInputScreen = ({ navigation }) => {
+    const { state } = useContext(AuthContext);
     const [term, setTerm] = useState('');
+    const [debouncedTerm, setDebouncedTerm] = useState(term);
+    const [results, setResults] = useState(null);
     
+    useEffect(() => {
+        const timerId = setTimeout(() => {
+            setDebouncedTerm(term);
+        }, 1000);
+
+        return () => {
+            clearTimeout(timerId);
+        }
+    }, [term]);
+
+    useEffect(() => {
+        const search = async () => {
+            const { data } = await spotifySearch.get('/search', {
+                headers: { 'Authorization': 'Bearer ' + state.token },
+                params: {
+                    q: debouncedTerm,
+                    type: 'album',
+                    //type: 'album,track,artist,playlist,track,episode',
+                    limit: 2
+                }
+            })
+            console.log(data);
+            setResults(data);
+        };
+        debouncedTerm === '' ? setResults(null) : search()
+    }, [debouncedTerm])
+
+    const renderResults = (results) => {
+        if (!results) {
+            return null;
+        } else {
+            return (
+                results.albums.items.map(result => {
+                    return <Text>{result.title}</Text>
+                    //return <SearchResult details={result} />
+                })
+            )
+        }
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.screenHeader}>
@@ -18,7 +64,7 @@ const SearchInputScreen = ({ navigation }) => {
                         placeholder="Search"
                         placeholderTextColor={Colors.WHITE}
                         value={term}
-                        onChangeText={text => setTerm(term)}
+                        onChangeText={text => setTerm(text)}
                         onEndEditing={() => null}
                         />
                 </View>
@@ -29,6 +75,7 @@ const SearchInputScreen = ({ navigation }) => {
             </View>
             <ScrollView>
                 <Text style={styles.subHeader}>Recent searches</Text>
+                {renderResults(results)}
             </ScrollView>
         </View>
     )
