@@ -23,6 +23,15 @@ import {
     Montserrat_900Black_Italic,
 } from '@expo-google-fonts/montserrat';
 import { Provider as AuthProvider } from './src/context/AuthContext';
+import {decode, encode} from 'base-64'
+
+if (!global.btoa) {
+    global.btoa = encode;
+}
+
+if (!global.atob) {
+    global.atob = decode;
+}
 
 const App = () => {
     let [fontsLoaded] = useFonts({

@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, ScrollView, TextInput } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableWithoutFeedback, ScrollView, TextInput } from 'react-native';
 import Icon from '../assets/icons';
 import { Context as AuthContext } from '../context/AuthContext';
+import { Context as DataContext } from '../context/DataContext';
 import spotifySearch from '../api/spotifySearch';
-import { SearchResult } from '../components/atoms';
+import SongBar from '../components/molecules/SongBar';
 import { Colors, Typography } from '../styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const SearchInputScreen = ({ navigation }) => {
-    const { state } = useContext(AuthContext);
+    const authContext = useContext(AuthContext);
+    //const dataContext = useContext(DataContext);
     const [term, setTerm] = useState('');
     const [debouncedTerm, setDebouncedTerm] = useState(term);
     const [results, setResults] = useState(null);
@@ -26,11 +28,11 @@ const SearchInputScreen = ({ navigation }) => {
     useEffect(() => {
         const search = async () => {
             const { data } = await spotifySearch.get('/search', {
-                headers: { 'Authorization': 'Bearer ' + state.token },
+                headers: { 'Authorization': 'Bearer ' + authContext.state.token },
                 params: {
                     q: debouncedTerm,
                     type: 'track',
-                    limit: 6
+                    limit: 10
                 }
             })
             setResults(data.tracks.items);
@@ -45,9 +47,13 @@ const SearchInputScreen = ({ navigation }) => {
             return (
                 results.map(result => {
                     return (
-                        <TouchableOpacity>
-                            <View>
-                                <Text style={{ color: 'white' }}>{result.name}</Text>
+                        <TouchableOpacity key={result.id} onPress={() => null}>
+                            <View key={result.id} style={styles.listItem}>
+                                <Image source={{ uri: result.album.images[0].url}} style={styles.thumbnail}/>
+                                <View style={styles.itemTitles}>
+                                    <Text style={styles.listItemTitle}>{result.name}</Text>
+                                    <Text style={styles.listItemSubtitle}>Song &middot; {result.artists[0].name}</Text>
+                                </View>
                             </View>
                         </TouchableOpacity>
                     )
@@ -56,14 +62,63 @@ const SearchInputScreen = ({ navigation }) => {
         }
     }
 
+    const renderMoreSearch = () => {
+        if (!results) {
+            return null;
+        } else {
+            return (
+                <View>
+                    <TouchableOpacity>
+                        <View style={styles.moreSearchRow}>
+                            <Text style={styles.moreSearchText}>See all artists</Text>
+                            <Icon name='arrowForward' size={24} color={Colors.GRAY_LIGHT} />
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <View style={styles.moreSearchRow}>
+                            <Text style={styles.moreSearchText}>See all songs</Text>
+                            <Icon name='arrowForward' size={24} color={Colors.GRAY_LIGHT} />
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <View style={styles.moreSearchRow}>
+                            <Text style={styles.moreSearchText}>See all playlists</Text>
+                            <Icon name='arrowForward' size={24} color={Colors.GRAY_LIGHT} />
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <View style={styles.moreSearchRow}>
+                            <Text style={styles.moreSearchText}>See all albums</Text>
+                            <Icon name='arrowForward' size={24} color={Colors.GRAY_LIGHT} />
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <View style={styles.moreSearchRow}>
+                            <Text style={styles.moreSearchText}>See all podcasts & shows</Text>
+                            <Icon name='arrowForward' size={24} color={Colors.GRAY_LIGHT} />
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <View style={styles.moreSearchRow}>
+                            <Text style={styles.moreSearchText}>See all episodes</Text>
+                            <Icon name='arrowForward' size={24} color={Colors.GRAY_LIGHT} />
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            )
+        }
+    }
+
     return (
         <View style={styles.container}>
+            <SongBar />
             <View style={styles.screenHeader}>
                 <View style={styles.inputContainer}>
                     <Icon name='search' size={20} color={Colors.WHITE}/>
                     <TextInput
                         autoCapitalize='none'
                         autoCorrect={false}
+                        autoFocus={true}
                         style={styles.input}
                         placeholder="Search"
                         placeholderTextColor={Colors.WHITE}
@@ -79,6 +134,7 @@ const SearchInputScreen = ({ navigation }) => {
             </View>
             <ScrollView contentContainerStyle={{ padding: 15 }}>
                 {renderResults(results)}
+                {renderMoreSearch()}
             </ScrollView>
         </View>
     )
@@ -96,7 +152,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 15,
         paddingTop: 50,
-        paddingBottom: 10
+        paddingBottom: 10,
     },
     inputContainer: {
         backgroundColor: Colors.GRAY_DARK,
@@ -104,12 +160,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         borderRadius: 8,
-        padding: 7
+        padding: 7,
     },
     input: {
         fontSize: Typography.FONT_SIZE_18,
         color: Colors.WHITE,
-        marginLeft: 8
+        marginLeft: 8,
     },
     cancelText: {
         color: Colors.WHITE,
@@ -120,6 +176,43 @@ const styles = StyleSheet.create({
         fontSize: Typography.FONT_SIZE_16,
         marginTop: 5,
     },
+    listItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 15,
+    },
+    thumbnail: {
+        height: 60,
+        width: 'auto',
+        aspectRatio: 1,
+    },
+    itemTitles: {
+        flexDirection: 'column',
+        marginLeft: 15,
+    },
+    listItemTitle: {
+        color: Colors.WHITE,
+        fontFamily: Typography.FONT_700,
+        fontSize: Typography.FONT_SIZE_16,
+        paddingBottom: 5,
+    },
+    listItemSubtitle: {
+        color: Colors.GRAY_LIGHT,
+        fontFamily: Typography.FONT_500,
+        fontSize: Typography.FONT_SIZE_14,
+    },
+    moreSearchRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 15,
+        paddingRight: 5
+    },
+    moreSearchText: {
+        color: Colors.WHITE,
+        fontFamily: Typography.FONT_600,
+        fontSize: Typography.FONT_SIZE_16,
+    }
 })
 
 export default SearchInputScreen;

@@ -17,7 +17,6 @@ const SearchScreen = ({ navigation }) => {
                         <Text style={{ marginLeft: 10 }}>Artists, songs, or podcasts</Text>
                         <Icon name='microphone' size={24} color={Colors.BLACK} style={{ marginLeft: 'auto'}}/>
                     </View>
-                    
                 </TouchableWithoutFeedback>
                 <Text style={styles.subHeader}>Your top genres</Text>
                 <CardSearchGrid cards={SEARCH_CARDS.filter(card => card.cardType === 'top-genres')} />
