@@ -8,6 +8,7 @@ export const BLUE = '#481be4';
 
 // GRAYSCALE
 export const GRAY_LIGHT = '#b3b3b3';
+export const GRAY_LIGHT_MED = '#7f7f7f';
 export const GRAY_MEDIUM = '#282828';
 export const GRAY_DARK = '#212121';
 export const GRAY_VERY_DARK = '#191919';

@@ -12,34 +12,34 @@ const Tab = createBottomTabNavigator();
 const TabNav = () => {
     return (
         <Tab.Navigator
-                screenOptions={({ route }) => ({
-                    tabBarIcon: ({ focused, color, size }) => {
-                        let iconName;
-                        if (route.name === 'Home') {
-                            iconName = focused
-                                ? 'home'
-                                : 'homeOutline';
-                        } else if (route.name === 'Search') {
-                            iconName = 'search';
-                        } else if (route.name === 'Library') {
-                            iconName = 'library';
-                        }
-                        return <Icon name={iconName} size={size} color={color} />;
-                    },
-                })}
-                tabBarOptions={{
-                    activeTintColor: Colors.WHITE,
-                    inactiveTintColor: Colors.GRAY_LIGHT,
-                    style: {
-                        backgroundColor: Colors.GRAY_MEDIUM,
-                        borderTopColor: Colors.BACKGROUND,
+            screenOptions={({ route }) => ({
+                tabBarIcon: ({ focused, color, size }) => {
+                    let iconName;
+                    if (route.name === 'Home') {
+                        iconName = focused
+                            ? 'home'
+                            : 'homeOutline';
+                    } else if (route.name === 'Search') {
+                        iconName = 'search';
+                    } else if (route.name === 'Library') {
+                        iconName = 'library';
                     }
-                }}
-            >
-                <Tab.Screen name="Home" component={HomeStackScreen} />
-                <Tab.Screen name="Search" component={SearchStackScreen} />
-                <Tab.Screen name="Library" component={LibraryStackScreen} />
-            </Tab.Navigator>
+                    return <Icon name={iconName} size={size} color={color} />;
+                },
+            })}
+            tabBarOptions={{
+                activeTintColor: Colors.WHITE,
+                inactiveTintColor: Colors.GRAY_LIGHT,
+                style: {
+                    backgroundColor: Colors.GRAY_MEDIUM,
+                    borderTopColor: Colors.BACKGROUND,
+                },
+            }}
+        >
+            <Tab.Screen name="Home" component={HomeStackScreen} />
+            <Tab.Screen name="Search" component={SearchStackScreen} />
+            <Tab.Screen name="Library" component={LibraryStackScreen} />
+        </Tab.Navigator>
     ) 
 }
 

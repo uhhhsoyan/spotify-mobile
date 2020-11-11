@@ -5,6 +5,7 @@ import { Context as AuthContext } from '../context/AuthContext';
 import spotifySearch from '../api/spotifySearch';
 import { SearchResult } from '../components/atoms';
 import { Colors, Typography } from '../styles';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const SearchInputScreen = ({ navigation }) => {
     const { state } = useContext(AuthContext);
@@ -19,7 +20,7 @@ const SearchInputScreen = ({ navigation }) => {
 
         return () => {
             clearTimeout(timerId);
-        }
+        };
     }, [term]);
 
     useEffect(() => {
@@ -28,25 +29,28 @@ const SearchInputScreen = ({ navigation }) => {
                 headers: { 'Authorization': 'Bearer ' + state.token },
                 params: {
                     q: debouncedTerm,
-                    type: 'album',
-                    //type: 'album,track,artist,playlist,track,episode',
-                    limit: 2
+                    type: 'track',
+                    limit: 6
                 }
             })
-            console.log(data);
-            setResults(data);
+            setResults(data.tracks.items);
         };
         debouncedTerm === '' ? setResults(null) : search()
     }, [debouncedTerm])
 
     const renderResults = (results) => {
         if (!results) {
-            return null;
+            return <Text style={styles.subHeader}>Recent searches</Text>;
         } else {
             return (
-                results.albums.items.map(result => {
-                    return <Text>{result.title}</Text>
-                    //return <SearchResult details={result} />
+                results.map(result => {
+                    return (
+                        <TouchableOpacity>
+                            <View>
+                                <Text style={{ color: 'white' }}>{result.name}</Text>
+                            </View>
+                        </TouchableOpacity>
+                    )
                 })
             )
         }
@@ -73,8 +77,7 @@ const SearchInputScreen = ({ navigation }) => {
                 </TouchableWithoutFeedback>
                 <Icon name='camera' size={20} color={Colors.WHITE}/>
             </View>
-            <ScrollView>
-                <Text style={styles.subHeader}>Recent searches</Text>
+            <ScrollView contentContainerStyle={{ padding: 15 }}>
                 {renderResults(results)}
             </ScrollView>
         </View>
@@ -105,6 +108,7 @@ const styles = StyleSheet.create({
     },
     input: {
         fontSize: Typography.FONT_SIZE_18,
+        color: Colors.WHITE,
         marginLeft: 8
     },
     cancelText: {
@@ -114,7 +118,7 @@ const styles = StyleSheet.create({
         color: Colors.WHITE,
         fontFamily: Typography.FONT_700,
         fontSize: Typography.FONT_SIZE_16,
-        marginTop: 25,
+        marginTop: 5,
     },
 })
 
