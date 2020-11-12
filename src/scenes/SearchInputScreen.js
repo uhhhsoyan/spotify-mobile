@@ -2,14 +2,13 @@ import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, Image, StyleSheet, TouchableWithoutFeedback, ScrollView, TextInput } from 'react-native';
 import Icon from '../assets/icons';
 import { Context as AuthContext } from '../context/AuthContext';
-import { Context as DataContext } from '../context/DataContext';
 import spotifySearch from '../api/spotifySearch';
 import SongBar from '../components/molecules/SongBar';
 import { Colors, Typography } from '../styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const SearchInputScreen = ({ navigation }) => {
-    const authContext = useContext(AuthContext);
+    const { state } = useContext(AuthContext);
     //const dataContext = useContext(DataContext);
     const [term, setTerm] = useState('');
     const [debouncedTerm, setDebouncedTerm] = useState(term);
@@ -28,7 +27,7 @@ const SearchInputScreen = ({ navigation }) => {
     useEffect(() => {
         const search = async () => {
             const { data } = await spotifySearch.get('/search', {
-                headers: { 'Authorization': 'Bearer ' + authContext.state.token },
+                headers: { 'Authorization': 'Bearer ' + state.token },
                 params: {
                     q: debouncedTerm,
                     type: 'track',

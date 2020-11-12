@@ -12,6 +12,14 @@ const authReducer = (state, action) => {
             return { ...state, errorMessage: action.payload };
         case 'clear_error':
             return { ...state, errorMessage: '' };
+        case 'play_song':
+            return { ...state, playing: true };
+        case 'pause_song':
+            return { ...state, playing: false };
+        case 'show_modal':
+            return { ...state, showModal: true };
+        case 'hide_modal':
+            return { ...state, showModal: false };
         default:
             return state;
     }
@@ -47,8 +55,24 @@ const signout = dispatch => async () => {
     navigate('loginFlow')
 }
 
+const playSong = dispatch => () => {
+    dispatch({ type: 'play_song' })
+}
+
+const pauseSong = dispatch => () => {
+    dispatch({ type: 'pause_song' })
+}
+
+const showModal = dispatch => () => {
+    dispatch({ type: 'show_modal' })
+}
+
+const hideModal = dispatch => () => {
+    dispatch({ type: 'hide_modal' })
+}
+
 export const { Provider, Context } = createDataContext(
     authReducer,
-    { signin, signout, clearErrorMessage, tryLocalSignin },
-    { token: null, errorMessage: '' }
+    { signin, signout, clearErrorMessage, tryLocalSignin, playSong, pauseSong, showModal, hideModal },
+    { token: null, errorMessage: '', playing: false }
 )

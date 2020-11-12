@@ -1,11 +1,18 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Context as AuthContext } from '../../context/AuthContext';
 import { Colors, Typography } from '../../styles';
 
 const SongBar = () => {
+    const { state, playSong, pauseSong } = useContext(AuthContext);
     return (
         <View style={styles.container}>
-
+            <Image />
+            <View>
+                <Text></Text>
+                <Text></Text>
+            </View>
+            <Icon />
         </View>
     )
 }
