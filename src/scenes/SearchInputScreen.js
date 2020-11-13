@@ -110,7 +110,6 @@ const SearchInputScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <SongBar />
             <View style={styles.screenHeader}>
                 <View style={styles.inputContainer}>
                     <Icon name='search' size={20} color={Colors.WHITE}/>

@@ -4,16 +4,18 @@ import { Colors, Typography } from '../styles';
 import Icon from '../assets/icons';
 import { SETTINGS_MENU } from '../data';
 
-const SettingsScreen = () => {
+const SettingsScreen = ({ navigation }) => {
     
     const renderMenu = (items) => {
         return (
             items.map((item, idx) => {
                 return (
-                    <View key={idx} style={styles.menuItem}>
+                    <TouchableOpacity key={idx} onPress={() => navigation.navigate('SettingsDetail')} >
+                        <View style={styles.menuItem}>
                         <Text style={styles.menuText}>{item}</Text>
                         <Icon name='arrowForward' size={24} color={Colors.GRAY_LIGHT} />
-                    </View>
+                        </View>
+                    </TouchableOpacity>
                 )
             })
         )
@@ -22,14 +24,16 @@ const SettingsScreen = () => {
     return (
         <View style={styles.container}>
             <ScrollView>
-                <View style={styles.profileCard}>
-                    <Image source={require('../assets/images/Profile.png')} style={styles.profileImg} />
-                    <View style={styles.profileTextContainer}>
-                        <Text style={styles.profileName}>Eric Essoyan</Text>
-                        <Text style={styles.profileSubText}>View Profile</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('SettingsDetail')} >
+                    <View style={styles.profileCard}>
+                        <Image source={require('../assets/images/Profile.png')} style={styles.profileImg} />
+                        <View style={styles.profileTextContainer}>
+                            <Text style={styles.profileName}>Eric Essoyan</Text>
+                            <Text style={styles.profileSubText}>View Profile</Text>
+                        </View>
+                        <Icon name='arrowForward' size={24} color={Colors.GRAY_LIGHT} style={{ marginLeft: 'auto' }}/>
                     </View>
-                    <Icon name='arrowForward' size={24} color={Colors.GRAY_LIGHT} style={{ marginLeft: 'auto' }}/>
-                </View>
+                </TouchableOpacity>
                 {renderMenu(SETTINGS_MENU)}
                 <TouchableOpacity style={styles.button}>
                     <Text style={styles.buttonText}>LOG OUT</Text>
@@ -66,20 +70,21 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
     },
     profileImg: {
-        height: 70,
+        height: 60,
         width: 'auto',
         aspectRatio: 1,
         borderRadius: 50,
-        marginRight: 10
+        marginRight: 15
     },
     profileName: {
         fontFamily: Typography.FONT_700,
         fontSize: Typography.FONT_SIZE_24,
         color: Colors.WHITE,
+        paddingBottom: 10,
     },
     profileSubText: {
-        fontFamily: Typography.FONT_400,
-        fontSize: Typography.FONT_SIZE_12,
+        fontFamily: Typography.FONT_500,
+        fontSize: Typography.FONT_SIZE_14,
         color: Colors.GRAY_LIGHT,
     },
     button: {

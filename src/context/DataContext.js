@@ -3,7 +3,7 @@ import createDataContext from './createDataContext';
 const dataReducer = (state, action) => {
     switch (action.type) {  
         case 'select_song':
-            return { song: action.payload, play: true };
+            return { ...state, song: action.payload, play: true };
         case 'play_song':
             return { ...state, play: true };
         case 'pause_song':

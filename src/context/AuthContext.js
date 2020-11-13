@@ -5,21 +5,23 @@ import { getAuth } from '../api/spotifyAuth';
 const authReducer = (state, action) => {
     switch (action.type) {  
         case 'signin':
-            return { errorMessage: '', token: action.payload };
+            return { ...state, errorMessage: '', token: action.payload };
         case 'signout':
-            return { token: null, errorMessage: '' };
+            return { ...state, token: null, errorMessage: '' };
         case 'add_error':
             return { ...state, errorMessage: action.payload };
         case 'clear_error':
             return { ...state, errorMessage: '' };
-        case 'play_song':
-            return { ...state, playing: true };
+        case 'toggle_play_pause':
+            return { ...state, playing: action.payload };
         case 'pause_song':
             return { ...state, playing: false };
         case 'show_modal':
-            return { ...state, showModal: true };
+            return { ...state, modalVisible: true };
         case 'hide_modal':
-            return { ...state, showModal: false };
+            return { ...state, modalVisible: false };
+        case 'select_song':
+            return { ...state, currentSongId: action.payload, playing: true };
         default:
             return state;
     }
@@ -55,8 +57,8 @@ const signout = dispatch => async () => {
     navigate('loginFlow')
 }
 
-const playSong = dispatch => () => {
-    dispatch({ type: 'play_song' })
+const togglePlayPause = dispatch => (toggle) => {
+    dispatch({ type: 'toggle_play_pause', payload: toggle })
 }
 
 const pauseSong = dispatch => () => {
@@ -71,8 +73,12 @@ const hideModal = dispatch => () => {
     dispatch({ type: 'hide_modal' })
 }
 
+const selectSong = dispatch => (songId) => {
+    dispatch({ type: 'select_song', playload: songId })
+}
+
 export const { Provider, Context } = createDataContext(
     authReducer,
-    { signin, signout, clearErrorMessage, tryLocalSignin, playSong, pauseSong, showModal, hideModal },
-    { token: null, errorMessage: '', playing: false }
+    { signin, signout, clearErrorMessage, tryLocalSignin, togglePlayPause, pauseSong, showModal, hideModal, selectSong },
+    { token: null, errorMessage: '', playing: true, modalVisible: false, currentSongId: "11dFghVXANMlKmJXsNCbNl" }
 )

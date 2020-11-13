@@ -4,14 +4,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { 
     HomeScreen, 
-    SearchScreen, 
-    LibraryScreen,
     SettingsScreen,
-    SearchInputScreen,
-    SplashScreen,
-    SignInScreen,
-    PlaylistScreen,
-    ArtistScreen,
+    SettingsDetailScreen,
 } from '../scenes';
 import Icon from '../assets/icons';
 import { Colors, Typography } from '../styles';
@@ -29,6 +23,29 @@ const HomeStackScreen = ({ navigation }) => {
                     headerStyle: {
                         backgroundColor: Colors.GRAY_VERY_DARK,
                         shadowColor: 'transparent'
+                    },
+                    headerTitleStyle: {
+                        color: Colors.WHITE,
+                        fontFamily: Typography.FONT_600
+                    },
+                    headerBackTitleVisible: false,
+                    headerBackImage: () => (
+                        <Icon 
+                            onPress={() => navigation.goBack()}
+                            name='arrowBack' 
+                            color={Colors.GRAY_LIGHT} 
+                            size={24} 
+                            style={{ marginLeft: 15 }}
+                        />
+                    ),
+                }}
+            />
+            <HomeStack.Screen name="SettingsDetail" component={SettingsDetailScreen} 
+                options={{
+                    title: '',
+                    headerStyle: {
+                        backgroundColor: Colors.GRAY_VERY_DARK,
+                        shadowColor: 'transparent',
                     },
                     headerTitleStyle: {
                         color: Colors.WHITE,
