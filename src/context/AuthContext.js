@@ -74,11 +74,11 @@ const hideModal = dispatch => () => {
 }
 
 const selectSong = dispatch => (songId) => {
-    dispatch({ type: 'select_song', playload: songId })
+    dispatch({ type: 'select_song', payload: songId })
 }
 
 export const { Provider, Context } = createDataContext(
     authReducer,
     { signin, signout, clearErrorMessage, tryLocalSignin, togglePlayPause, pauseSong, showModal, hideModal, selectSong },
-    { token: null, errorMessage: '', playing: true, modalVisible: false, currentSongId: "11dFghVXANMlKmJXsNCbNl" }
+    { token: null, errorMessage: '', playing: true, modalVisible: false, currentSongId: "5bHV6UowNC1YVu8LYDkUjU" }
 )

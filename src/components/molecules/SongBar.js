@@ -23,6 +23,8 @@ const SongBar = () => {
         search()
     }, [state.currentSongId])
 
+    console.log(state)
+
     const renderPlayPause = () => {
         if (state.playing === true) {
             return <Icon name='pause' size={24} color='white' />

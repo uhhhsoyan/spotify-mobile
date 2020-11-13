@@ -3,12 +3,12 @@ import { View, Text, Image, StyleSheet, TouchableWithoutFeedback, ScrollView, Te
 import Icon from '../assets/icons';
 import { Context as AuthContext } from '../context/AuthContext';
 import spotifySearch from '../api/spotifySearch';
-import SongBar from '../components/molecules/SongBar';
+import { SongBar } from '../components/molecules';
 import { Colors, Typography } from '../styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const SearchInputScreen = ({ navigation }) => {
-    const { state } = useContext(AuthContext);
+    const { state, selectSong } = useContext(AuthContext);
     //const dataContext = useContext(DataContext);
     const [term, setTerm] = useState('');
     const [debouncedTerm, setDebouncedTerm] = useState(term);
@@ -46,7 +46,7 @@ const SearchInputScreen = ({ navigation }) => {
             return (
                 results.map(result => {
                     return (
-                        <TouchableOpacity key={result.id} onPress={() => null}>
+                        <TouchableOpacity key={result.id} onPress={() => selectSong(result.id)}>
                             <View key={result.id} style={styles.listItem}>
                                 <Image source={{ uri: result.album.images[0].url}} style={styles.thumbnail}/>
                                 <View style={styles.itemTitles}>
@@ -109,32 +109,35 @@ const SearchInputScreen = ({ navigation }) => {
     }
 
     return (
-        <View style={styles.container}>
-            <View style={styles.screenHeader}>
-                <View style={styles.inputContainer}>
-                    <Icon name='search' size={20} color={Colors.WHITE}/>
-                    <TextInput
-                        autoCapitalize='none'
-                        autoCorrect={false}
-                        autoFocus={true}
-                        style={styles.input}
-                        placeholder="Search"
-                        placeholderTextColor={Colors.WHITE}
-                        value={term}
-                        onChangeText={text => setTerm(text)}
-                        onEndEditing={() => null}
-                        />
+        <>
+            <SongBar />
+            <View style={styles.container}>
+                <View style={styles.screenHeader}>
+                    <View style={styles.inputContainer}>
+                        <Icon name='search' size={20} color={Colors.WHITE}/>
+                        <TextInput
+                            autoCapitalize='none'
+                            autoCorrect={false}
+                            autoFocus={true}
+                            style={styles.input}
+                            placeholder="Search"
+                            placeholderTextColor={Colors.WHITE}
+                            value={term}
+                            onChangeText={text => setTerm(text)}
+                            onEndEditing={() => null}
+                            />
+                    </View>
+                    <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
+                        <Text style={styles.cancelText}>Cancel</Text>
+                    </TouchableWithoutFeedback>
+                    <Icon name='camera' size={20} color={Colors.WHITE}/>
                 </View>
-                <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
-                    <Text style={styles.cancelText}>Cancel</Text>
-                </TouchableWithoutFeedback>
-                <Icon name='camera' size={20} color={Colors.WHITE}/>
+                <ScrollView contentContainerStyle={{ padding: 15 }}>
+                    {renderResults(results)}
+                    {renderMoreSearch()}
+                </ScrollView>
             </View>
-            <ScrollView contentContainerStyle={{ padding: 15 }}>
-                {renderResults(results)}
-                {renderMoreSearch()}
-            </ScrollView>
-        </View>
+        </>
     )
 }
 
