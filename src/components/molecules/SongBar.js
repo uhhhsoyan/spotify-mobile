@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Audio } from 'expo-av';
 import { Context as AuthContext } from '../../context/AuthContext';
 import { Colors, Typography } from '../../styles';
 import Icon from '../../assets/icons';
@@ -8,6 +9,7 @@ import spotifySearch from '../../api/spotifySearch';
 
 const SongBar = () => {
     const [trackData, setTrackData] = useState(null)
+    const [audio, setAudio] = useState(null);
     const { state, togglePlayPause, showModal } = useContext(AuthContext);
     
     useEffect(() => {
@@ -22,8 +24,25 @@ const SongBar = () => {
         };
         search()
     }, [state.currentSongId])
-
-    console.log(state)
+    
+    useEffect(() => {
+        const loadSong = async () => {
+            const soundObject = new Audio.Sound();
+            try {
+                await soundObject.loadAsync({ uri: trackData.preview_url });
+                await soundObject.playAsync();
+                setInterval(async () => {
+                    const status = await soundObject.getStatusAsync();
+                    console.log(status)
+                }, 500)
+            } catch (err) {
+                console.log('We got an error!')
+            }
+        }
+        if (trackData) {
+            loadSong()
+        }
+    }, [trackData])
 
     const renderPlayPause = () => {
         if (state.playing === true) {
@@ -39,7 +58,7 @@ const SongBar = () => {
                 <View style={styles.container}>
                     <TouchableOpacity onPress={() => showModal()} style={{ width: '90%'}}>
                         <View style={styles.leftContainer}>
-                            <Image style={styles.thumbnail} source={{ uri: trackData.album.images[0].url}}/>
+                            <Image style={styles.thumbnail} source={{ uri: trackData.album.images[0].url }}/>
                             <View style={styles.textContainer}>
                                 <Text style={styles.title}>{trackData.name}</Text>
                                 <Text style={styles.subtitle}>{trackData.album.artists[0].name}</Text>
