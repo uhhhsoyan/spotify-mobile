@@ -3,7 +3,6 @@ import { View, Text, Image, StyleSheet, TouchableWithoutFeedback, ScrollView, Te
 import Icon from '../assets/icons';
 import { Context as AuthContext } from '../context/AuthContext';
 import spotifySearch from '../api/spotifySearch';
-import { SongBar } from '../components/molecules';
 import { Colors, Typography } from '../styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -46,7 +45,7 @@ const SearchInputScreen = ({ navigation }) => {
             return (
                 results.map(result => {
                     return (
-                        <TouchableOpacity key={result.id} onPress={() => selectSong(result.id)}>
+                        <TouchableOpacity key={result.id} onPress={() => selectSong(result.id, state.token)}>
                             <View key={result.id} style={styles.listItem}>
                                 <Image source={{ uri: result.album.images[0].url}} style={styles.thumbnail}/>
                                 <View style={styles.itemTitles}>
@@ -109,35 +108,33 @@ const SearchInputScreen = ({ navigation }) => {
     }
 
     return (
-        <>
-            <SongBar />
-            <View style={styles.container}>
-                <View style={styles.screenHeader}>
-                    <View style={styles.inputContainer}>
-                        <Icon name='search' size={20} color={Colors.WHITE}/>
-                        <TextInput
-                            autoCapitalize='none'
-                            autoCorrect={false}
-                            autoFocus={true}
-                            style={styles.input}
-                            placeholder="Search"
-                            placeholderTextColor={Colors.WHITE}
-                            value={term}
-                            onChangeText={text => setTerm(text)}
-                            onEndEditing={() => null}
-                            />
-                    </View>
-                    <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
-                        <Text style={styles.cancelText}>Cancel</Text>
-                    </TouchableWithoutFeedback>
-                    <Icon name='camera' size={20} color={Colors.WHITE}/>
-                </View>
-                <ScrollView contentContainerStyle={{ padding: 15 }}>
-                    {renderResults(results)}
-                    {renderMoreSearch()}
-                </ScrollView>
-            </View>
-        </>
+      <View style={styles.container}>
+          <View style={styles.screenHeader}>
+              <View style={styles.inputContainer}>
+                  <Icon name='search' size={20} color={Colors.WHITE}/>
+                  <TextInput
+                      autoCapitalize='none'
+                      autoCorrect={false}
+                      autoFocus={true}
+                      style={styles.input}
+                      placeholder="Search"
+                      placeholderTextColor={Colors.WHITE}
+                      value={term}
+                      onChangeText={text => setTerm(text)}
+                      onEndEditing={() => null}
+                      />
+              </View>
+              <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
+                  <Text style={styles.cancelText}>Cancel</Text>
+              </TouchableWithoutFeedback>
+              <Icon name='camera' size={20} color={Colors.WHITE}/>
+          </View>
+          <ScrollView contentContainerStyle={{ padding: 15 }}>
+              {renderResults(results)}
+              {renderMoreSearch()}
+          </ScrollView>
+      </View>
+        
     )
 }
 

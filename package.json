@@ -41,5 +41,8 @@
     "eslint-import-resolver-babel-module": "^5.2.0"
   },
   "private": true,
-  "name": "spotify-copy-mobile"
+  "name": "spotify-copy-mobile",
+  "prettier": {
+    "editor.formatOnSave": "true"
+  }
 }

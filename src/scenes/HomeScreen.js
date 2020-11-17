@@ -5,8 +5,6 @@ import { Spacer } from '../components/atoms';
 import { CardGrid, CardRow } from '../components/molecules';
 import { Colors, Typography } from '../styles';
 import Icon from '../assets/icons';
-import spotifySearch from '../api/spotifySearch';
-import { SongBar } from '../components/molecules';
 import { Context as AuthContext } from '../context/AuthContext';
 
 const HomeScreen = ({ navigation }) => {
@@ -17,7 +15,6 @@ const HomeScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <SongBar />
             <ScrollView>
                 <LinearGradient
                     colors={[Colors.BLUE, Colors.BACKGROUND]}

@@ -1,73 +1,87 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { Audio } from 'expo-av';
 import { Context as AuthContext } from '../../context/AuthContext';
 import { Colors, Typography } from '../../styles';
 import Icon from '../../assets/icons';
 import SongModal from '../organisms/SongModal';
-import spotifySearch from '../../api/spotifySearch';
 
 const SongBar = () => {
-    const [trackData, setTrackData] = useState(null)
-    const [audio, setAudio] = useState(null);
-    const { state, togglePlayPause, showModal } = useContext(AuthContext);
+    const [progress, setProgress] = useState(0);
+    const [duration, setDuration] = useState(0);
+    const { state, playSong, pauseSong, showModal, selectSong } = useContext(AuthContext);
     
     useEffect(() => {
-        const search = async () => {
-            const { data } = await spotifySearch.get(`/tracks/${state.currentSongId}`, {
-                headers: { 'Authorization': 'Bearer ' + state.token },
-                params: {
-                    
-                }
-            })
-            setTrackData(data);
-        };
-        search()
-    }, [state.currentSongId])
-    
+      selectSong("5bHV6UowNC1YVu8LYDkUjU", state.token)
+    }, [])
+
     useEffect(() => {
-        const loadSong = async () => {
-            const soundObject = new Audio.Sound();
-            try {
-                await soundObject.loadAsync({ uri: trackData.preview_url });
-                await soundObject.playAsync();
-                setInterval(async () => {
-                    const status = await soundObject.getStatusAsync();
-                    console.log(status)
-                }, 500)
-            } catch (err) {
-                console.log('We got an error!')
-            }
+      let interval = null;
+      if (state.playing) {
+        interval = setInterval(async () => {
+          if (state.audio) {
+            const status = await state.audio.getStatusAsync();
+            setProgress(status.positionMillis)
+          }
+        }, 100)
+      }
+      return () => clearInterval(interval)
+    }, [state.playing, state.audio])
+
+    useEffect(() => {
+      const getDuration = async () => {
+        if (state.audio) {
+          const status = await state.audio.getStatusAsync();
+          setDuration(status.durationMillis)
         }
-        if (trackData) {
-            loadSong()
-        }
-    }, [trackData])
+      }
+      getDuration()
+    }, [state.audio])
+
+    const playAudio = async () => {
+      await state.audio.playAsync();
+      playSong();
+    }
+
+    const pauseAudio = async () => {
+        await state.audio.pauseAsync();
+        pauseSong();
+    }
 
     const renderPlayPause = () => {
         if (state.playing === true) {
-            return <Icon name='pause' size={24} color='white' />
+            return (
+                <TouchableOpacity onPress={() => pauseAudio()} >
+                    <Icon name='pause' size={24} color='white' style={{ paddingRight: 15 }} />
+                </TouchableOpacity>
+            )
         } else {
-            return <Icon name='play' size={24} color='white' />
+            return (
+                <TouchableOpacity onPress={() => playAudio()} >
+                    <Icon name='play' size={24} color='white' style={{ paddingRight: 15 }} />
+                </TouchableOpacity>
+            )
         }
     }
 
     const renderSongBar = () => {
-        if (trackData) {
+        if (state.trackData) {
             return (
                 <View style={styles.container}>
-                    <TouchableOpacity onPress={() => showModal()} style={{ width: '90%'}}>
-                        <View style={styles.leftContainer}>
-                            <Image style={styles.thumbnail} source={{ uri: trackData.album.images[0].url }}/>
-                            <View style={styles.textContainer}>
-                                <Text style={styles.title}>{trackData.name}</Text>
-                                <Text style={styles.subtitle}>{trackData.album.artists[0].name}</Text>
-                            </View>
-                        </View>  
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => togglePlayPause(!state.playing)}>
-                        {renderPlayPause()}
-                    </TouchableOpacity>
+                  <View style={styles.timelineBackground}>
+                      <View style={[styles.timeline, { width: `${(progress / duration) * 100}%` }]}>
+                        <View style={styles.timelineMarker}></View>
+                      </View>
+                    </View>
+                  <TouchableOpacity onPress={() => showModal()} style={{ width: '90%'}}>
+                    <View style={styles.leftContainer}>
+                      <Image style={styles.thumbnail} source={{ uri: state.trackData.album.images[0].url }}/>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.title}>{state.trackData.name}</Text>
+                        <Text style={styles.subtitle}>{state.trackData.album.artists[0].name}</Text>
+                      </View>
+                    </View>  
+                  </TouchableOpacity>
+                  {renderPlayPause()}
                 </View>
             )
         } else {
@@ -77,54 +91,68 @@ const SongBar = () => {
 
     return (
         <>
-            <SongModal trackData={trackData} />
+            <SongModal 
+              trackData={state.trackData}
+              playAudio={playAudio}  
+              pauseAudio={pauseAudio}
+              progress={progress}
+              duration={duration}
+            />
             {renderSongBar()}            
         </>
     )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        position: 'absolute',
-        width: '100%',
-        height: 60,
-        zIndex: 1,
-        backgroundColor: Colors.GRAY_MEDIUM,
-        bottom: 0,
-        borderBottomColor: 'black',
-        borderBottomWidth: 0.3,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingRight: 15
-    },
-    timeline: {
-
-    },
-    leftContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: '80%'
-    },
-    thumbnail: {
-        height: 60,
-        width: 'auto',
-        aspectRatio: 1,
-    },
-    textContainer: {
-        flexDirection: 'column',
-        paddingLeft: 10
-    },
-    title: {
-        color: Colors.WHITE,
-        fontFamily: Typography.FONT_500,
-        fontSize: Typography.FONT_SIZE_14,
-    },
-    subtitle: {
-        color: Colors.GRAY_LIGHT,
-        fontFamily: Typography.FONT_500,
-        fontSize: Typography.FONT_SIZE_14,
-    },
+  container: {
+    position: 'absolute',
+    width: '100%',
+    height: 60,
+    zIndex: 1,
+    backgroundColor: Colors.GRAY_MEDIUM,
+    bottom: 70,
+    borderBottomColor: 'black',
+    borderBottomWidth: 0.3,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    
+  },
+  timeline: {
+    height: 2,
+    backgroundColor: Colors.WHITE,
+  },
+  timelineBackground: {
+    position: 'absolute',
+    width: '100%',
+    alignSelf: 'flex-start',
+    height: 2,
+    backgroundColor: Colors.GRAY_VERY_LIGHT,
+  },
+  leftContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '80%'
+  },
+  thumbnail: {
+    height: 58,
+    width: 'auto',
+    aspectRatio: 1,
+  },
+  textContainer: {
+    flexDirection: 'column',
+    paddingLeft: 10
+  },
+  title: {
+    color: Colors.WHITE,
+    fontFamily: Typography.FONT_500,
+    fontSize: Typography.FONT_SIZE_14,
+  },
+  subtitle: {
+    color: Colors.GRAY_LIGHT,
+    fontFamily: Typography.FONT_500,
+    fontSize: Typography.FONT_SIZE_14,
+  },
 
 })
 

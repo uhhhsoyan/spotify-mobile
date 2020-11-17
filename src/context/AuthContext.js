@@ -1,6 +1,8 @@
 import { AsyncStorage } from '@react-native-community/async-storage';
 import createDataContext from './createDataContext';
 import { getAuth } from '../api/spotifyAuth';
+import spotifySearch from '../api/spotifySearch';
+import { Audio } from 'expo-av';
  
 const authReducer = (state, action) => {
     switch (action.type) {  
@@ -12,8 +14,8 @@ const authReducer = (state, action) => {
             return { ...state, errorMessage: action.payload };
         case 'clear_error':
             return { ...state, errorMessage: '' };
-        case 'toggle_play_pause':
-            return { ...state, playing: action.payload };
+        case 'play_song':
+            return { ...state, playing: true };
         case 'pause_song':
             return { ...state, playing: false };
         case 'show_modal':
@@ -21,7 +23,11 @@ const authReducer = (state, action) => {
         case 'hide_modal':
             return { ...state, modalVisible: false };
         case 'select_song':
-            return { ...state, currentSongId: action.payload, playing: true };
+          if (state.audio) {
+            console.log('Unloading previous track');
+            state.audio.unloadAsync();
+          }
+          return { ...state, audio: action.payload[0], trackData: action.payload[1], playing: true };
         default:
             return state;
     }
@@ -57,8 +63,8 @@ const signout = dispatch => async () => {
     navigate('loginFlow')
 }
 
-const togglePlayPause = dispatch => (toggle) => {
-    dispatch({ type: 'toggle_play_pause', payload: toggle })
+const playSong = dispatch => () => {
+    dispatch({ type: 'play_song' })
 }
 
 const pauseSong = dispatch => () => {
@@ -73,12 +79,19 @@ const hideModal = dispatch => () => {
     dispatch({ type: 'hide_modal' })
 }
 
-const selectSong = dispatch => (songId) => {
-    dispatch({ type: 'select_song', payload: songId })
+const selectSong = dispatch => async (songId, token) => {
+  const { data } = await spotifySearch.get(`/tracks/${songId}`, {
+    headers: { 'Authorization': 'Bearer ' + token },
+  })
+  const soundObject = new Audio.Sound();
+  await soundObject.loadAsync({ uri: data.preview_url });
+  await soundObject.playAsync();
+    
+  dispatch({ type: 'select_song', payload: [soundObject, data] })
 }
 
 export const { Provider, Context } = createDataContext(
     authReducer,
-    { signin, signout, clearErrorMessage, tryLocalSignin, togglePlayPause, pauseSong, showModal, hideModal, selectSong },
-    { token: null, errorMessage: '', playing: true, modalVisible: false, currentSongId: "5bHV6UowNC1YVu8LYDkUjU" }
+    { signin, signout, clearErrorMessage, tryLocalSignin, playSong, pauseSong, showModal, hideModal, selectSong },
+    { token: null, errorMessage: '', trackData: null, audio: null, playing: true, duration: 0, modalVisible: false }
 )

@@ -7,5 +7,5 @@ export {
     CardGrid,
     CardRow,
     CardSearchGrid,
-    SongBar
+    SongBar,
 }

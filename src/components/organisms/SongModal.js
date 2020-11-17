@@ -4,14 +4,22 @@ import { Context as AuthContext } from '../../context/AuthContext';
 import { Colors, Typography } from '../../styles';
 import Icon from '../../assets/icons';
 
-const SongModal = ({ trackData }) => {
-    const { state, hideModal, togglePlayPause } = useContext(AuthContext);
+const SongModal = ({ trackData, playAudio, pauseAudio, progress, duration }) => {
+    const { state, hideModal } = useContext(AuthContext);
 
     const renderPlayPause = () => {
         if (state.playing === true) {
-            return <Icon name='pauseCircle' size={70} color={Colors.WHITE} />
+            return (
+                <TouchableOpacity onPress={() => pauseAudio()} >
+                    <Icon name='pauseCircle' size={70} color={Colors.WHITE} />
+                </TouchableOpacity>
+            )
         } else {
-            return <Icon name='playCircle' size={70} color={Colors.WHITE} />
+            return (
+                <TouchableOpacity onPress={() => playAudio()} >
+                    <Icon name='playCircle' size={70} color={Colors.WHITE} />
+                </TouchableOpacity>
+            )
         }
     }
 
@@ -34,8 +42,10 @@ const SongModal = ({ trackData }) => {
                         </View>
                         <Icon name='heartOutline' size={24} color='white' />
                     </View>
-                    <View style={styles.timeline}>
-
+                    <View style={styles.timelineBackground}>
+                      <View style={[styles.timeline, { width: `${(progress / duration) * 100}%` }]}>
+                        <View style={styles.timelineMarker}></View>
+                      </View>
                     </View>
                     <View style={styles.controlsRow}>
                         <Icon name='shuffle' size={24} color={Colors.GRAY_LIGHT} />
@@ -109,10 +119,25 @@ const styles = StyleSheet.create({
         fontSize: Typography.FONT_SIZE_16,
     },
     timeline: {
+      height: 4,
+      borderRadius: 10,
+      backgroundColor: Colors.WHITE,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+    },
+    timelineMarker: {
+      height: 15,
+      width: 'auto',
+      aspectRatio: 1,
+      borderRadius: 15,
+      backgroundColor: Colors.WHITE,
+    },
+    timelineBackground: {
         width: '100%',
         height: 4,
         borderRadius: 10,
-        backgroundColor: Colors.GRAY_LIGHT,
+        backgroundColor: Colors.GRAY_VERY_LIGHT,
     },
     timelineLabelRow: {
 

@@ -26,7 +26,6 @@ const SignInScreen2 = () => {
   useEffect(() => {
     if (response?.type === 'success') {
       const { code } = response.params;
-      console.log(code)
       }
   }, [response]);
 
