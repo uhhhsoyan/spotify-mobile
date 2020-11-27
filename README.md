@@ -19,3 +19,18 @@ yarn start
 // 3. if you have to use any; ideally you type everything you can
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ```
+
+## FC<Props>
+```
+type Props = {
+  imgSource: ImageSourcePropType
+}
+const Card: FC<Props> = ({ imgSource, text }) => {
+  return (
+    <View style={styles.container}>
+      <Image source={imgSource} style={styles.image} />
+      <Text style={styles.text}>{text}</Text>
+    </View>
+  );
+};
+```

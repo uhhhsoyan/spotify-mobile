@@ -8,7 +8,7 @@ export const FONT_400 = 'Montserrat_400Regular';
 export const FONT_500 = 'Montserrat_500Medium';
 export const FONT_600 = 'Montserrat_600SemiBold';
 export const FONT_700 = 'Montserrat_700Bold';
-export const FONT_800 = 'Montserrat_800ExtraBold'
+export const FONT_800 = 'Montserrat_800ExtraBold';
 export const FONT_900 = 'Montserrat_900Black';
 
 // FONT SIZE
