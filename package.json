@@ -2,10 +2,9 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
-    "eject": "expo eject"
+    "lint": "eslint ./src/ App.tsx --ext .ts,.tsx",
+    "tsc": "tsc --noEmit --pretty --skipLibCheck --project ./tsconfig.json",
+    "ensure": "yarn lint && yarn tsc"
   },
   "dependencies": {
     "@expo-google-fonts/montserrat": "^0.1.0",
@@ -39,7 +38,21 @@
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
-    "eslint-import-resolver-babel-module": "^5.2.0"
+    "@types/base-64": "^0.1.3",
+    "@types/react": "^17.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.6.1",
+    "@typescript-eslint/parser": "^4.6.1",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "babel-plugin-transform-inline-environment-variables": "^0.4.3",
+    "eslint": "^7.13.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.1.0",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-react-native": "^3.10.0",
+    "jest-expo": "~39.0.0",
+    "ts-node": "^9.0.0",
+    "typescript": "~3.9.5"
   },
   "private": true,
   "name": "spotify-copy-mobile"

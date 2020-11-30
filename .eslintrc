@@ -1,0 +1,106 @@
+{
+  "env": {
+    "es6": true,
+    "react-native/react-native": true
+  },
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "jest",
+    "react",
+    "react-native",
+    "react-hooks"
+  ],
+  "ignorePatterns": [
+    "node_modules",
+    "dist",
+    ".expo",
+    ".expo-shared",
+    "scripts",
+    "babel.config.js",
+    "index.js",
+    "metro.config.js",
+    "react-native.config.js"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:jest/recommended"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+
+    "max-len": ["warn", {
+      "code": 100,
+      "tabWidth": 2,
+      "ignoreComments": true,
+      "ignoreStrings": true,
+      "ignoreTrailingComments": true,
+      "ignoreTemplateLiterals": true,
+      "ignoreRegExpLiterals": true,
+      "ignorePattern": "^\\s*<Text"
+    }],
+    "comma-dangle": ["warn", "always-multiline"],
+    "semi": "warn",
+    "quotes": ["warn", "single", {
+      "allowTemplateLiterals": true,
+      "avoidEscape": true
+    }],
+    "no-param-reassign": "error",
+    "eqeqeq": "error",
+    "dot-notation": "warn",
+    "arrow-parens": ["warn", "always"],
+    "prefer-const": ["warn", {
+      "destructuring": "all",
+      "ignoreReadBeforeAssign": false
+    }],
+    "no-trailing-spaces": "warn",
+    "no-unneeded-ternary": "warn",
+
+    // Customized React rules
+    "react/boolean-prop-naming": 1,
+
+    // React Native specific
+    "react-native/no-unused-styles": 1,
+    "react-native/no-single-element-style-arrays": 1,
+    "react-native/no-color-literals": 1,
+
+    // VSCode will still dim unused vars. This can be more of a nuisance than a help.
+    "@typescript-eslint/no-unused-vars": "off",
+
+    // Don't need explicit return types since they are generally well inferred.
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+
+    // Prevent imports from RNGH that cause frequent bugs.
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "react-native-gesture-handler",
+            "importNames": [
+              "TouchableOpacity",
+              "TouchableNativeFeedback",
+              "TouchableHighlight",
+              "TouchableWithoutFeedback"
+            ],
+            "message": "Please import it from 'react-native' instead."
+          }
+        ]
+      }
+    ]
+  }
+}

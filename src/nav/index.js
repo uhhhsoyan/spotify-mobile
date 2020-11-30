@@ -5,12 +5,8 @@ import AuthNav from './AuthNav';
 import TabNav from './TabNav';
 
 const RootNav = () => {
-    const { state } = useContext(AuthContext);
-    return (
-        <NavigationContainer>
-            {state.token ? <TabNav /> : <AuthNav />}
-        </NavigationContainer>
-    )
-}
+  const { state } = useContext(AuthContext);
+  return <NavigationContainer>{state.token ? <TabNav /> : <AuthNav />}</NavigationContainer>;
+};
 
 export default RootNav;
