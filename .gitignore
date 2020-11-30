@@ -9,7 +9,8 @@ npm-debug.*
 *.orig.*
 web-build/
 
-src/api/
+# config
+.env
 
 # macOS
 .DS_Store
