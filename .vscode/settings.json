@@ -1,0 +1,27 @@
+{
+  "eslint.run": "onSave",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.format.enable": true,
+  "prettier.printWidth": 100,
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "all",
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#1DB954",
+    "activityBar.activeBackground": "#1DB954",
+    "activityBar.activeBorder": "#1DB954",
+    "activityBar.foreground": "#e7e7e7",
+    "activityBar.inactiveForeground": "#e7e7e7",
+    "activityBarBadge.background": "#1DB954",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "titleBar.activeBackground": "#1DB954",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveForeground": "#e7e7e7",
+    "statusBar.background": "#1DB954",
+    "statusBar.foreground": "#e7e7e7",
+    "tab.activeBorder": "#1DB954",
+    "statusBar.border": "#1DB954",
+    "titleBar.border": "#1DB954"
+  }
+}
