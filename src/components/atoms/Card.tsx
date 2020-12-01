@@ -3,9 +3,10 @@ import { View, Text, Image, StyleSheet, ImageSourcePropType } from 'react-native
 import { Colors, Typography } from '../../styles';
 
 type Props = {
-  imgSource: ImageSourcePropType
+  imgSource: ImageSourcePropType;
   text: string;
 }
+
 const Card: FC<Props> = ({ imgSource, text }) => {
   return (
     <View style={styles.container}>
