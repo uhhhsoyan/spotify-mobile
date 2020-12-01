@@ -3,8 +3,23 @@ import createDataContext from './createDataContext';
 import { getAuth } from '../api/spotifyAuth';
 import spotifySearch from '../api/spotifySearch';
 import { Audio } from 'expo-av';
+import {
+  AuthState,
+  AuthActions,
+  SignIn,
+  SignOut,
+  AddError,
+  ClearError,
+  PlaySong,
+  PauseSong,
+  ShowModal,
+  HideModal,
+  SelectSong,
+  initialAuthState,
+} from './types';
+import { Dispatch } from 'react';
 
-const authReducer = (state, action) => {
+const authReducer = (state: AuthState, action: AuthActions) => {
   switch (action.type) {
     case 'signin':
       return { ...state, errorMessage: '', token: action.payload };
@@ -38,21 +53,11 @@ const authReducer = (state, action) => {
   }
 };
 
-const tryLocalSignin = (dispatch) => async () => {
-  const token = await AsyncStorage.getItem('token');
-  if (token) {
-    dispatch({ type: 'signin', payload: token });
-    navigate('mainFlow');
-  } else {
-    navigate('loginFlow');
-  }
-};
-
-const clearErrorMessage = (dispatch) => () => {
+const clearErrorMessage = (dispatch: Dispatch<ClearError>) => () => {
   dispatch({ type: 'clear_error' });
 };
 
-const signin = (dispatch) => async () => {
+export const signin = (dispatch: Dispatch<SignIn | AddError>) => async () => {
   try {
     const token = await getAuth();
     //await AsyncStorage.setItem('token', token);
@@ -62,29 +67,28 @@ const signin = (dispatch) => async () => {
   }
 };
 
-const signout = (dispatch) => async () => {
+const signout = (dispatch: Dispatch<SignOut>) => async () => {
   await AsyncStorage.removeItem('token');
   dispatch({ type: 'signout' });
-  navigate('loginFlow');
 };
 
-const playSong = (dispatch) => () => {
+const playSong = (dispatch: Dispatch<PlaySong>) => () => {
   dispatch({ type: 'play_song' });
 };
 
-const pauseSong = (dispatch) => () => {
+const pauseSong = (dispatch: Dispatch<PauseSong>) => () => {
   dispatch({ type: 'pause_song' });
 };
 
-const showModal = (dispatch) => () => {
+const showModal = (dispatch: Dispatch<ShowModal>) => () => {
   dispatch({ type: 'show_modal' });
 };
 
-const hideModal = (dispatch) => () => {
+const hideModal = (dispatch: Dispatch<HideModal>) => () => {
   dispatch({ type: 'hide_modal' });
 };
 
-const selectSong = (dispatch) => async (songId: string, token: string) => {
+const selectSong = (dispatch: Dispatch<SelectSong>) => async (songId: string, token: string) => {
   const { data } = await spotifySearch.get(`/tracks/${songId}`, {
     headers: { Authorization: 'Bearer ' + token },
   });
@@ -101,20 +105,11 @@ export const { Provider, Context } = createDataContext(
     signin,
     signout,
     clearErrorMessage,
-    tryLocalSignin,
     playSong,
     pauseSong,
     showModal,
     hideModal,
     selectSong,
   },
-  {
-    token: null,
-    errorMessage: '',
-    trackData: null,
-    audio: null,
-    playing: true,
-    duration: 0,
-    modalVisible: false,
-  },
+  initialAuthState,
 );

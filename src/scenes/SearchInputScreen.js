@@ -7,7 +7,6 @@ import { Colors, Typography } from '../styles';
 
 const SearchInputScreen = ({ navigation }) => {
     const { state, selectSong } = useContext(AuthContext);
-    //const dataContext = useContext(DataContext);
     const [term, setTerm] = useState('');
     const [debouncedTerm, setDebouncedTerm] = useState(term);
     const [results, setResults] = useState(null);

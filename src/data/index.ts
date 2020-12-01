@@ -15,7 +15,19 @@ export const SETTINGS_MENU = [
   'About',
 ];
 
-export const SEARCH_CARDS = [
+export const CardType = {
+  'top-genres': 'top-genres',
+  podcast: 'podcast',
+  'browse-all': 'browse-all',
+} as const;
+
+export type Card = {
+  cardTitle: string;
+  cardColor: string;
+  cardType: keyof typeof CardType;
+}
+
+export const SEARCH_CARDS: Card[] = [
   {
     cardTitle: 'Dance/Electronic',
     cardColor: '#a3dfd3',
