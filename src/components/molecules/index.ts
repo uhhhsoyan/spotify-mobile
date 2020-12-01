@@ -3,9 +3,4 @@ import CardRow from './CardRow';
 import CardSearchGrid from './CardSearchGrid';
 import SongBar from './SongBar';
 
-export { 
-    CardGrid,
-    CardRow,
-    CardSearchGrid,
-    SongBar,
-}
+export { CardGrid, CardRow, CardSearchGrid, SongBar };

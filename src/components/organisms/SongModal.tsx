@@ -4,6 +4,14 @@ import { Context as AuthContext } from '../../context/AuthContext';
 import { Colors, Typography } from '../../styles';
 import Icon from '../../assets/icons';
 
+type Props = {
+  trackData: ;
+  playAudio: ;
+  pauseAudio: ;
+  progress: ;
+  duration: ;
+}
+
 const SongModal = ({ trackData, playAudio, pauseAudio, progress, duration }) => {
     const { state, hideModal } = useContext(AuthContext);
 
@@ -67,7 +75,7 @@ const SongModal = ({ trackData, playAudio, pauseAudio, progress, duration }) => 
         <Modal
             animationType='slide'
             visible={state.modalVisible}
-            presentationStyle='fullscreen'
+            presentationStyle='fullScreen'
         >
             {renderModal()}
         </Modal>
