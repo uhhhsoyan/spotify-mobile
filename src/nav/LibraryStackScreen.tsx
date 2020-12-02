@@ -1,20 +1,11 @@
 import React, { FC } from 'react';
-import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import { LibraryScreen } from '../scenes';
 import { LibraryStackParamList } from './types';
 
-const LibraryStack = createStackNavigator();
+const LibraryStack = createStackNavigator<LibraryStackParamList>();
 
-type LibraryScreenNavigationProp = StackNavigationProp<
-  LibraryStackParamList,
-  'Library'
->;
-
-type Props = {
-  navigation: LibraryScreenNavigationProp;
-};
-
-const LibraryStackScreen: FC<Props> = ({ navigation }: Props) => {
+const LibraryStackScreen: FC = () => {
   return (
     <LibraryStack.Navigator>
       <LibraryStack.Screen

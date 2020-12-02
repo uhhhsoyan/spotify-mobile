@@ -6,11 +6,13 @@ import { CardGrid, CardRow } from '../components/molecules';
 import { Colors, Typography } from '../styles';
 import Icon from '../assets/icons';
 import { Context as AuthContext } from '../context/AuthContext';
-import { HomeStackParamList } from '../nav/types';
+import { HomeScreenNavigationProp } from '../nav/types';
 
-type Props = StackScreenProps<HomeStackParamList, 'Home'>;
+type Props = {
+  navigation: HomeScreenNavigationProp;
+}
 
-const HomeScreen: FC<Props> = ({ navigation }: Props) => {
+const HomeScreen: FC<Props> = ({ navigation }) => {
   const { state } = useContext(AuthContext);
   // update to use Context
   const [timeOfDay, setTimeOfDay] = useState('afternoon');

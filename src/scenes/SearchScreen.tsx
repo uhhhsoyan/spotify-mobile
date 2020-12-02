@@ -5,9 +5,11 @@ import Icon from '../assets/icons';
 import { Colors, Typography } from '../styles';
 import { SEARCH_CARDS } from '../data';
 import { CardSearchGrid } from '../components/molecules';
-import { SearchStackParamList } from '../nav/types';
+import { SearchScreenNavigationProp } from '../nav/types';
 
-type Props = StackScreenProps<SearchStackParamList, 'Search'>;
+type Props = {
+  navigation: SearchScreenNavigationProp;
+}
 
 const SearchScreen: FC<Props> = ({ navigation }) => {
   return (

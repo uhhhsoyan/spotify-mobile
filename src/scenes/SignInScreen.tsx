@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
+import React, { useContext, FC } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Context as AuthContext } from '../context/AuthContext';
 import { Colors } from '../styles';
 
-const SignInScreen = () => {
+const SignInScreen: FC = () => {
   const { signin } = useContext(AuthContext);
-
+  // converted onPress to arrow function to get rid of warning...
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={signin}>
+      <TouchableOpacity onPress={() => signin}>
         <View style={styles.button}>
           <Text>Sign In</Text>
         </View>

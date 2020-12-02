@@ -6,10 +6,14 @@ import { Colors, Typography } from '../styles';
 import { SongBar } from '../components/molecules';
 import { TabNavParamList } from './types';
 
-type Props = BottomTabScreenProps;
+type Props = {
+  state: any;
+  descriptors: any;
+  navigation: any;
+};
 
 
-const MyTabBar: FC<Props> = ({ state, descriptors, navigation }: Props) => {
+const MyTabBar: FC<Props> = ({ state, descriptors, navigation }) => {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
 
   if (focusedOptions.tabBarVisible === false) {
@@ -20,7 +24,7 @@ const MyTabBar: FC<Props> = ({ state, descriptors, navigation }: Props) => {
     <>
       <SongBar />
       <View style={styles.container}>
-        {state.routes.map((route, index: number) => {
+        {state.routes.map((route: any, index: number) => {
           const { options } = descriptors[route.key];
           const label =
             options.tabBarLabel !== undefined
@@ -39,6 +43,8 @@ const MyTabBar: FC<Props> = ({ state, descriptors, navigation }: Props) => {
               iconName = 'search';
             } else if (route.name === 'Library') {
               iconName = 'library';
+            } else {
+              iconName = 'Home';
             }
             return (
               <Icon

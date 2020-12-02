@@ -4,6 +4,7 @@ import { Context as AuthContext } from '../../context/AuthContext';
 import { Colors, Typography } from '../../styles';
 import Icon from '../../assets/icons';
 import SongModal from '../organisms/SongModal';
+import { AuthState, AuthActions } from '../../context/types';
 
 const SongBar: FC = () => {
   const [progress, setProgress] = useState(0);

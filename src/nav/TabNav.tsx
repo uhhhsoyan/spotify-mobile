@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator, BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { Context as AuthContext } from '../context/AuthContext';
 import HomeStackScreen from './HomeStackScreen';
 import SearchStackScreen from './SearchStackScreen';

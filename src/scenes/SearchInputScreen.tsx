@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, FC } from 'react';
 import {
   View,
   Text,
@@ -13,8 +13,13 @@ import Icon from '../assets/icons';
 import { Context as AuthContext } from '../context/AuthContext';
 import spotifySearch from '../api/spotifySearch';
 import { Colors, Typography } from '../styles';
+import { SearchInputScreenNavigationProp } from '../nav/types';
 
-const SearchInputScreen = ({ navigation }) => {
+type Props = {
+  navigation: SearchInputScreenNavigationProp;
+}
+
+const SearchInputScreen: FC<Props> = ({ navigation }) => {
   const { state, selectSong } = useContext(AuthContext);
   const [term, setTerm] = useState('');
   const [debouncedTerm, setDebouncedTerm] = useState(term);
@@ -45,7 +50,7 @@ const SearchInputScreen = ({ navigation }) => {
     debouncedTerm === '' ? setResults(null) : search();
   }, [debouncedTerm]);
 
-  const renderResults = (results) => {
+  const renderResults = (results: SearchResponse) => {
     if (!results) {
       return <Text style={styles.subHeader}>Recent searches</Text>;
     } else {

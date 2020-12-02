@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { Colors, Typography } from '../styles';
 import Icon from '../assets/icons';
 import { SETTINGS_MENU } from '../data';
+import { SettingsScreenNavigationProp } from '../nav/types';
 
-const SettingsScreen = ({ navigation }) => {
-  const renderMenu = (items) => {
-    return items.map((item, idx) => {
+type Props = {
+  navigation: SettingsScreenNavigationProp
+}
+
+const SettingsScreen: FC<Props> = ({ navigation }) => {
+  const renderMenu = (items: string[]) => {
+    return items.map((item: string, idx: number) => {
       return (
         <TouchableOpacity key={idx} onPress={() => navigation.navigate('SettingsDetail')}>
           <View style={styles.menuItem}>
@@ -24,7 +29,7 @@ const SettingsScreen = ({ navigation }) => {
         <TouchableOpacity onPress={() => navigation.navigate('SettingsDetail')}>
           <View style={styles.profileCard}>
             <Image source={require('../assets/images/Profile.png')} style={styles.profileImg} />
-            <View style={styles.profileTextContainer}>
+            <View>
               <Text style={styles.profileName}>Eric Essoyan</Text>
               <Text style={styles.profileSubText}>View Profile</Text>
             </View>

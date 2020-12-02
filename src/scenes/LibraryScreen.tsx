@@ -1,17 +1,19 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, FC } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { Context as AuthContext } from '../context/AuthContext';
 import { Mixins } from '../styles';
 import spotifySearch from '../api/spotifySearch';
 import { Colors, Typography } from '../styles';
 
-const LibraryScreen = () => {
+type SpotifyData = Array<Record<string, any>> | null;
+
+const LibraryScreen: FC = () => {
   const { state } = useContext(AuthContext);
   const [music, setMusic] = useState(true);
   const [subHeaderIdx, setSubHeaderIdx] = useState(0);
-  const [playlists, setPlaylists] = useState(null);
-  const [artists, setArtists] = useState(null);
-  const [albums, setAlbums] = useState(null);
+  const [playlists, setPlaylists] = useState<SpotifyData>(null);
+  const [artists, setArtists] = useState<SpotifyData>(null);
+  const [albums, setAlbums] = useState<SpotifyData>(null);
 
   useEffect(() => {
     const search = async () => {
@@ -37,11 +39,15 @@ const LibraryScreen = () => {
         },
       });
       setAlbums(data.albums.items);
+      setArtists(data.albums.items);
     };
     search();
   }, [state.token]);
 
-  const renderMusicScreen = (playlists, artists, albums) => {
+  const renderMusicScreen = (
+    playlists: SpotifyData,
+    artists: SpotifyData,
+    albums: SpotifyData) => {
     return (
       <View>
         <View style={styles.subHeader}>
@@ -54,7 +60,7 @@ const LibraryScreen = () => {
             {renderPlaylists(playlists)}
           </ScrollView>
           <ScrollView contentContainerStyle={{ width: Mixins.WINDOW_WIDTH, paddingBottom: 140 }}>
-            {renderArtists(albums)}
+            {renderArtists(artists)}
           </ScrollView>
           <ScrollView contentContainerStyle={{ width: Mixins.WINDOW_WIDTH, paddingBottom: 140 }}>
             {renderAlbums(albums)}
@@ -76,7 +82,7 @@ const LibraryScreen = () => {
     );
   };
 
-  const renderPlaylists = (items) => {
+  const renderPlaylists = (items: SpotifyData) => {
     if (!items) {
       return null;
     }
@@ -95,7 +101,7 @@ const LibraryScreen = () => {
     });
   };
 
-  const renderArtists = (items) => {
+  const renderArtists = (items: SpotifyData) => {
     if (!items) {
       return null;
     }
@@ -114,7 +120,7 @@ const LibraryScreen = () => {
     });
   };
 
-  const renderAlbums = (items) => {
+  const renderAlbums = (items: SpotifyData) => {
     if (!items) {
       return null;
     }
@@ -151,7 +157,7 @@ const LibraryScreen = () => {
           </Text>
         </TouchableOpacity>
       </View>
-      {music ? renderMusicScreen(playlists, albums, albums) : renderPodcastScreen()}
+      {music ? renderMusicScreen(playlists, artists, albums) : renderPodcastScreen()}
     </View>
   );
 };
