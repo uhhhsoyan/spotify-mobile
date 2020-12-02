@@ -1,12 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState, FC } from 'react';
 import { View, Text, StyleSheet, StatusBar, ScrollView, TouchableOpacity } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CardGrid, CardRow } from '../components/molecules';
 import { Colors, Typography } from '../styles';
 import Icon from '../assets/icons';
 import { Context as AuthContext } from '../context/AuthContext';
+import { HomeStackParamList } from '../nav/types';
 
-const HomeScreen = ({ navigation }) => {
+type Props = StackScreenProps<HomeStackParamList, 'Home'>;
+
+const HomeScreen: FC<Props> = ({ navigation }: Props) => {
   const { state } = useContext(AuthContext);
   // update to use Context
   const [timeOfDay, setTimeOfDay] = useState('afternoon');

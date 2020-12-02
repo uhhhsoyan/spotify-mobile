@@ -10,7 +10,6 @@ const PlaylistScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {},
 });
 
 export default PlaylistScreen;

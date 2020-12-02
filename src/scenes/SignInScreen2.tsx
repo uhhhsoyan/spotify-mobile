@@ -1,4 +1,4 @@
-import React, { useEffect }  from 'react';
+import React, { useEffect } from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
 import { View, Text, Button, StyleSheet } from 'react-native';
@@ -18,44 +18,31 @@ const SignInScreen2 = () => {
       clientId: '5d193d9374e5444c8c77c753ae758074',
       scopes: ['user-read-email', 'playlist-modify-public'],
       usePKCE: false,
-      redirectUri: makeRedirectUri({ useProxy: false })
+      redirectUri: makeRedirectUri({ useProxy: false }),
     },
-    discovery
+    discovery,
   );
 
   useEffect(() => {
     if (response?.type === 'success') {
       const { code } = response.params;
-      }
+    }
   }, [response]);
 
   return (
-        <View style={styles.container}>
-            <Button
-                disabled={!request}
-                title="Login"
-                onPress={() => promptAsync()}
-            />
-        </View>
-    
+    <View style={styles.container}>
+      <Button disabled={!request} title="Login" onPress={() => promptAsync()} />
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: Colors.BACKGROUND,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    button: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: 100,
-        height: 40,
-        backgroundColor: '#1db954',
-        borderRadius: 40
-    }
-})
+  container: {
+    flex: 1,
+    backgroundColor: Colors.BACKGROUND,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 export default SignInScreen2;

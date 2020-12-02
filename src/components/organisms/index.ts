@@ -1,5 +1,3 @@
 import SongModal from './SongModal';
 
-export { 
-    SongModal
-}
+export { SongModal };

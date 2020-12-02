@@ -25,7 +25,7 @@ const LibraryScreen = () => {
       setPlaylists(data.playlists.items);
     };
     search();
-  }, []);
+  }, [state.token]);
 
   useEffect(() => {
     const search = async () => {
@@ -39,7 +39,7 @@ const LibraryScreen = () => {
       setAlbums(data.albums.items);
     };
     search();
-  }, []);
+  }, [state.token]);
 
   const renderMusicScreen = (playlists, artists, albums) => {
     return (
