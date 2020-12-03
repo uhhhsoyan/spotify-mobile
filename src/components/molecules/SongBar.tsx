@@ -12,8 +12,11 @@ const SongBar: FC = () => {
   const { state, playSong, pauseSong, showModal, selectSong } = useContext(AuthContext);
 
   useEffect(() => {
-    selectSong('5bHV6UowNC1YVu8LYDkUjU', state.token); // why only expecting 1 argument?
-  }, [selectSong, state.token]);
+    if (selectSong) {
+      selectSong('5bHV6UowNC1YVu8LYDkUjU', state.token); // why only expecting 1 argument?
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -21,7 +24,9 @@ const SongBar: FC = () => {
       interval = setInterval(async () => {
         if (state.audio) {
           const status = await state.audio.getStatusAsync();
-          setProgress(status.positionMillis); // only exists if isLoaded = true, not ifLoaded = false
+          if (status.isLoaded === true) {
+            setProgress(status.positionMillis); // only exists if isLoaded = true, not ifLoaded = false
+          }
         }
       }, 100);
     }
@@ -32,7 +37,9 @@ const SongBar: FC = () => {
     const getDuration = async () => {
       if (state.audio) {
         const status = await state.audio.getStatusAsync();
-        setDuration(status.durationMillis); // only exists if isLoaded = true, not ifLoaded = false
+        if (status.isLoaded === true && status.durationMillis) {
+          setDuration(status.durationMillis);
+        }
       }
     };
     getDuration();
@@ -43,7 +50,9 @@ const SongBar: FC = () => {
     if (state.audio) {
       await state.audio.playAsync();
     }
-    playSong();
+    if (playSong) {
+      playSong();
+    }
   };
 
   const pauseAudio = async () => {
@@ -51,7 +60,9 @@ const SongBar: FC = () => {
     if (state.audio) {
       await state.audio.pauseAsync();
     }
-    pauseSong();
+    if (pauseSong) {
+      pauseSong();
+    }
   };
 
   const renderPlayPause = () => {
@@ -78,7 +89,7 @@ const SongBar: FC = () => {
             <View style={[styles.timeline, { width: `${(progress / duration) * 100}%` }]}>
             </View>
           </View>
-          <TouchableOpacity onPress={() => showModal()} style={{ width: '90%' }}>
+          <TouchableOpacity onPress={() => showModal && showModal()} style={{ width: '90%' }}>
             <View style={styles.leftContainer}>
               <Image
                 style={styles.thumbnail}

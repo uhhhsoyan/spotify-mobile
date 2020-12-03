@@ -58,7 +58,7 @@ const SearchInputScreen: FC<Props> = ({ navigation }) => {
         return (
           <TouchableOpacity
             key={result.id}
-            onPress={() => selectSong(result.id, state.token)}
+            onPress={() => selectSong && selectSong(result.id, state.token)}
           >
             <View key={result.id} style={styles.listItem}>
               <Image source={{ uri: result.album.images[0].url }} style={styles.thumbnail} />

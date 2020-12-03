@@ -8,7 +8,7 @@ const SignInScreen: FC = () => {
   // converted onPress to arrow function to get rid of warning...
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => signin}>
+      <TouchableOpacity onPress={signin}>
         <View style={styles.button}>
           <Text>Sign In</Text>
         </View>

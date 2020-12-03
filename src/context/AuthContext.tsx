@@ -6,15 +6,6 @@ import { Audio } from 'expo-av';
 import {
   AuthState,
   AuthActions,
-  SignIn,
-  SignOut,
-  AddError,
-  ClearError,
-  PlaySong,
-  PauseSong,
-  ShowModal,
-  HideModal,
-  SelectSong,
   initialAuthState,
 } from './types';
 import { Dispatch } from 'react';
@@ -53,11 +44,11 @@ const authReducer = (state: AuthState, action: AuthActions) => {
   }
 };
 
-export const clearErrorMessage = (dispatch: Dispatch<ClearError>) => () => {
+export const clearErrorMessage = (dispatch: Dispatch<AuthActions>) => () => {
   dispatch({ type: 'clear_error' });
 };
 
-export const signin = (dispatch: Dispatch<SignIn | AddError>) => async () => {
+export const signin = (dispatch: Dispatch<AuthActions>) => async () => {
   try {
     const token = await getAuth();
     //await AsyncStorage.setItem('token', token);
@@ -67,29 +58,29 @@ export const signin = (dispatch: Dispatch<SignIn | AddError>) => async () => {
   }
 };
 
-export const signout = (dispatch: Dispatch<SignOut>) => async () => {
+export const signout = (dispatch: Dispatch<AuthActions>) => async () => {
   await AsyncStorage.removeItem('token');
   dispatch({ type: 'signout' });
 };
 
-export const playSong = (dispatch: Dispatch<PlaySong>) => () => {
+export const playSong = (dispatch: Dispatch<AuthActions>) => () => {
   dispatch({ type: 'play_song' });
 };
 
-export const pauseSong = (dispatch: Dispatch<PauseSong>) => () => {
+export const pauseSong = (dispatch: Dispatch<AuthActions>) => () => {
   dispatch({ type: 'pause_song' });
 };
 
-export const showModal = (dispatch: Dispatch<ShowModal>) => () => {
+export const showModal = (dispatch: Dispatch<AuthActions>) => () => {
   dispatch({ type: 'show_modal' });
 };
 
-export const hideModal = (dispatch: Dispatch<HideModal>) => () => {
+export const hideModal = (dispatch: Dispatch<AuthActions>) => () => {
   dispatch({ type: 'hide_modal' });
 };
 
-export const selectSong = (dispatch: Dispatch<SelectSong>) =>
-  async (songId: string, token: string) => {
+export const selectSong = (dispatch: Dispatch<AuthActions>) =>
+  async (songId: string, token: string | null) => {
     const { data } = await spotifySearch.get(`/tracks/${songId}`, {
       headers: { Authorization: 'Bearer ' + token },
     });

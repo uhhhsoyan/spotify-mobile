@@ -38,7 +38,7 @@ const SongModal: FC<Props> = ({ trackData, playAudio, pauseAudio, progress, dura
       return (
         <View style={styles.container}>
           <View style={styles.topLine}>
-            <TouchableOpacity onPress={() => hideModal()}>
+            <TouchableOpacity onPress={hideModal}>
               <Icon name="arrowDown" color="white" size={24} />
             </TouchableOpacity>
             <Text style={styles.text}>Playlist Name</Text>
