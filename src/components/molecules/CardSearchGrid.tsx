@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { CardSearch } from '../atoms';
-import { Card } from '../../data';
+import { SearchCard } from '../../data';
 
 type Props = {
-  cards: Array<Card>
+  cards: Array<SearchCard>
 };
 
-const renderCards = (cards: Array<Card>) => {
+const renderCards = (cards: Array<SearchCard>) => {
   return cards.map((card, idx: number) => {
     <CardSearch key={idx} text={card.cardTitle} color={card.cardColor} />;
   });

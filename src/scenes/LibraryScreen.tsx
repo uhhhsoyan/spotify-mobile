@@ -5,15 +5,110 @@ import { Mixins } from '../styles';
 import spotifySearch from '../api/spotifySearch';
 import { Colors, Typography } from '../styles';
 
-type SpotifyData = Array<Record<string, any>> | null;
+const renderMusicScreen = (
+  playlists: SpotifyApi.PlaylistObjectFull[] | null,
+  artists: SpotifyApi.AlbumObjectFull[] | null,
+  albums: SpotifyApi.AlbumObjectFull[] | null) => {
+  return (
+    <View>
+      <View style={styles.subHeader}>
+        <Text style={styles.subHeaderText}>Playlists</Text>
+        <Text style={styles.subHeaderText}>Artists</Text>
+        <Text style={styles.subHeaderText}>Albums</Text>
+      </View>
+      <ScrollView horizontal pagingEnabled>
+        <ScrollView contentContainerStyle={{ width: Mixins.WINDOW_WIDTH, paddingBottom: 140 }}>
+          {renderPlaylists(playlists)}
+        </ScrollView>
+        <ScrollView contentContainerStyle={{ width: Mixins.WINDOW_WIDTH, paddingBottom: 140 }}>
+          {renderArtists(artists)}
+        </ScrollView>
+        <ScrollView contentContainerStyle={{ width: Mixins.WINDOW_WIDTH, paddingBottom: 140 }}>
+          {renderAlbums(albums)}
+        </ScrollView>
+      </ScrollView>
+    </View>
+  );
+};
+
+const renderPodcastScreen = () => {
+  return (
+    <View>
+      <View style={styles.subHeader}>
+        <Text style={styles.subHeaderText}>Episodes</Text>
+        <Text style={styles.subHeaderText}>Downloads</Text>
+        <Text style={styles.subHeaderText}>Shows</Text>
+      </View>
+    </View>
+  );
+};
+
+// Need to consolidate renderMethods into single render function
+
+const renderPlaylists = (items: SpotifyApi.PlaylistObjectFull[] | null) => {
+  if (!items) {
+    return null;
+  }
+  return items.map((item) => {
+    return (
+      <TouchableOpacity key={item.id}>
+        <View key={item.id} style={styles.listItem}>
+          <Image source={{ uri: item.images[0].url }} style={styles.thumbnail} />
+          <View style={styles.itemTitles}>
+            <Text style={styles.listItemTitle}>{item.name}</Text>
+            <Text style={styles.listItemSubtitle}>by {item.owner.id}</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  });
+};
+
+const renderArtists = (items: SpotifyApi.AlbumObjectFull[] | null) => {
+  if (!items) {
+    return null;
+  }
+  return items.map((item) => {
+    return (
+      <TouchableOpacity key={item.id}>
+        <View key={item.id} style={styles.listItem}>
+          <Image source={{ uri: item.images[0].url }} style={styles.thumbnail} />
+          <View style={styles.itemTitles}>
+            <Text style={styles.listItemTitle}>{item.name}</Text>
+            <Text style={styles.listItemSubtitle}>{item.artists[0].name}</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  });
+};
+
+const renderAlbums = (items: SpotifyApi.AlbumObjectFull[] | null) => {
+  if (!items) {
+    return null;
+  }
+  return items.map((item) => {
+    return (
+      <TouchableOpacity key={item.id}>
+        <View key={item.id} style={styles.listItem}>
+          <Image source={{ uri: item.images[0].url }} style={styles.thumbnail} />
+          <View style={styles.itemTitles}>
+            <Text style={styles.listItemTitle}>{item.name}</Text>
+            <Text style={styles.listItemSubtitle}>{item.artists[0].name}</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  });
+};
 
 const LibraryScreen: FC = () => {
   const { state } = useContext(AuthContext);
   const [music, setMusic] = useState(true);
   const [subHeaderIdx, setSubHeaderIdx] = useState(0);
-  const [playlists, setPlaylists] = useState<SpotifyData>(null);
-  const [artists, setArtists] = useState<SpotifyData>(null);
-  const [albums, setAlbums] = useState<SpotifyData>(null);
+  const [playlists, setPlaylists] = useState<SpotifyApi.PlaylistObjectFull[] | null>(null);
+  const [artists, setArtists] = useState<SpotifyApi.AlbumObjectFull[] | null>(null); //temporarily using Album data for artists
+  const [albums, setAlbums] = useState<SpotifyApi.AlbumObjectFull[] | null>(null);
 
   useEffect(() => {
     const search = async () => {
@@ -43,101 +138,6 @@ const LibraryScreen: FC = () => {
     };
     search();
   }, [state.token]);
-
-  const renderMusicScreen = (
-    playlists: SpotifyData,
-    artists: SpotifyData,
-    albums: SpotifyData) => {
-    return (
-      <View>
-        <View style={styles.subHeader}>
-          <Text style={styles.subHeaderText}>Playlists</Text>
-          <Text style={styles.subHeaderText}>Artists</Text>
-          <Text style={styles.subHeaderText}>Albums</Text>
-        </View>
-        <ScrollView horizontal pagingEnabled>
-          <ScrollView contentContainerStyle={{ width: Mixins.WINDOW_WIDTH, paddingBottom: 140 }}>
-            {renderPlaylists(playlists)}
-          </ScrollView>
-          <ScrollView contentContainerStyle={{ width: Mixins.WINDOW_WIDTH, paddingBottom: 140 }}>
-            {renderArtists(artists)}
-          </ScrollView>
-          <ScrollView contentContainerStyle={{ width: Mixins.WINDOW_WIDTH, paddingBottom: 140 }}>
-            {renderAlbums(albums)}
-          </ScrollView>
-        </ScrollView>
-      </View>
-    );
-  };
-
-  const renderPodcastScreen = () => {
-    return (
-      <View>
-        <View style={styles.subHeader}>
-          <Text style={styles.subHeaderText}>Episodes</Text>
-          <Text style={styles.subHeaderText}>Downloads</Text>
-          <Text style={styles.subHeaderText}>Shows</Text>
-        </View>
-      </View>
-    );
-  };
-
-  const renderPlaylists = (items: SpotifyData) => {
-    if (!items) {
-      return null;
-    }
-    return items.map((item) => {
-      return (
-        <TouchableOpacity key={item.id}>
-          <View key={item.id} style={styles.listItem}>
-            <Image source={{ uri: item.images[0].url }} style={styles.thumbnail} />
-            <View style={styles.itemTitles}>
-              <Text style={styles.listItemTitle}>{item.name}</Text>
-              <Text style={styles.listItemSubtitle}>by {item.owner.id}</Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-      );
-    });
-  };
-
-  const renderArtists = (items: SpotifyData) => {
-    if (!items) {
-      return null;
-    }
-    return items.map((item) => {
-      return (
-        <TouchableOpacity key={item.id}>
-          <View key={item.id} style={styles.listItem}>
-            <Image source={{ uri: item.images[0].url }} style={styles.thumbnail} />
-            <View style={styles.itemTitles}>
-              <Text style={styles.listItemTitle}>{item.name}</Text>
-              <Text style={styles.listItemSubtitle}>{item.artists[0].name}</Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-      );
-    });
-  };
-
-  const renderAlbums = (items: SpotifyData) => {
-    if (!items) {
-      return null;
-    }
-    return items.map((item) => {
-      return (
-        <TouchableOpacity key={item.id}>
-          <View key={item.id} style={styles.listItem}>
-            <Image source={{ uri: item.images[0].url }} style={styles.thumbnail} />
-            <View style={styles.itemTitles}>
-              <Text style={styles.listItemTitle}>{item.name}</Text>
-              <Text style={styles.listItemSubtitle}>{item.artists[0].name}</Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-      );
-    });
-  };
 
   return (
     <View style={styles.container}>

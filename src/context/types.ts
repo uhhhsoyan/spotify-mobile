@@ -7,7 +7,7 @@ export type AuthState = {
   modalVisible: boolean;
   playing: boolean;
   token: null | string;
-  trackData: null | Record<string, unknown>;
+  trackData: null | SpotifyApi.TrackObjectFull;
 };
 
 export const initialAuthState: AuthState = {
@@ -56,7 +56,7 @@ export type HideModal = {
 
 export type SelectSong = {
   type: 'select_song';
-  payload: [Audio.Sound, Record<string, unknown>];
+  payload: [Audio.Sound, SpotifyApi.TrackObjectFull];
 };
 
 export type AuthActions =

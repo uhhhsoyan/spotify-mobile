@@ -17,17 +17,17 @@ export const SETTINGS_MENU = [
 
 export const CardType = {
   'top-genres': 'top-genres',
-  podcast: 'podcast',
+  'podcast': 'podcast',
   'browse-all': 'browse-all',
 } as const;
 
-export type Card = {
+export type SearchCard = {
   cardTitle: string;
   cardColor: string;
   cardType: keyof typeof CardType;
 }
 
-export const SEARCH_CARDS: Card[] = [
+export const SEARCH_CARDS: SearchCard[] = [
   {
     cardTitle: 'Dance/Electronic',
     cardColor: '#a3dfd3',

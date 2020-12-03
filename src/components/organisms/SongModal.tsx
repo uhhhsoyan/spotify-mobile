@@ -7,7 +7,7 @@ import Icon from '../../assets/icons';
 // Note: removed touchabel opacity around renderPlayPause
 
 type Props = {
-  trackData: Record<string, unknown>;
+  trackData: SpotifyApi.TrackObjectFull | null;
   playAudio: () => void;
   pauseAudio: () => void;
   progress: number;

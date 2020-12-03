@@ -53,7 +53,7 @@ const authReducer = (state: AuthState, action: AuthActions) => {
   }
 };
 
-const clearErrorMessage = (dispatch: Dispatch<ClearError>) => () => {
+export const clearErrorMessage = (dispatch: Dispatch<ClearError>) => () => {
   dispatch({ type: 'clear_error' });
 };
 
@@ -67,37 +67,38 @@ export const signin = (dispatch: Dispatch<SignIn | AddError>) => async () => {
   }
 };
 
-const signout = (dispatch: Dispatch<SignOut>) => async () => {
+export const signout = (dispatch: Dispatch<SignOut>) => async () => {
   await AsyncStorage.removeItem('token');
   dispatch({ type: 'signout' });
 };
 
-const playSong = (dispatch: Dispatch<PlaySong>) => () => {
+export const playSong = (dispatch: Dispatch<PlaySong>) => () => {
   dispatch({ type: 'play_song' });
 };
 
-const pauseSong = (dispatch: Dispatch<PauseSong>) => () => {
+export const pauseSong = (dispatch: Dispatch<PauseSong>) => () => {
   dispatch({ type: 'pause_song' });
 };
 
-const showModal = (dispatch: Dispatch<ShowModal>) => () => {
+export const showModal = (dispatch: Dispatch<ShowModal>) => () => {
   dispatch({ type: 'show_modal' });
 };
 
-const hideModal = (dispatch: Dispatch<HideModal>) => () => {
+export const hideModal = (dispatch: Dispatch<HideModal>) => () => {
   dispatch({ type: 'hide_modal' });
 };
 
-const selectSong = (dispatch: Dispatch<SelectSong>) => async (songId: string, token: string) => {
-  const { data } = await spotifySearch.get(`/tracks/${songId}`, {
-    headers: { Authorization: 'Bearer ' + token },
-  });
-  const soundObject = new Audio.Sound();
-  await soundObject.loadAsync({ uri: data.preview_url });
-  await soundObject.playAsync();
+export const selectSong = (dispatch: Dispatch<SelectSong>) =>
+  async (songId: string, token: string) => {
+    const { data } = await spotifySearch.get(`/tracks/${songId}`, {
+      headers: { Authorization: 'Bearer ' + token },
+    });
+    const soundObject = new Audio.Sound();
+    await soundObject.loadAsync({ uri: data.preview_url });
+    await soundObject.playAsync();
 
-  dispatch({ type: 'select_song', payload: [soundObject, data] });
-};
+    dispatch({ type: 'select_song', payload: [soundObject, data] });
+  };
 
 export const { Provider, Context } = createDataContext(
   authReducer,

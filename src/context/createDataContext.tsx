@@ -1,16 +1,22 @@
 import React, { FC, ReactChild, useReducer } from 'react';
 import { AuthActions, AuthState, initialAuthState } from './types';
-import { signin } from './AuthContext';
+import { signin, signout,
+  clearErrorMessage,
+  playSong,
+  pauseSong,
+  showModal,
+  hideModal,
+  selectSong } from './AuthContext';
 
 interface ContextActions {
-  signin?: typeof signin
-  // signout,
-  // clearErrorMessage,
-  // playSong,
-  // pauseSong,
-  // showModal,
-  // hideModal,
-  // selectSong,
+  signin?: typeof signin;
+  signout?: typeof signout;
+  clearErrorMessage?: typeof clearErrorMessage;
+  playSong?: typeof playSong;
+  pauseSong?: typeof pauseSong;
+  showModal?: typeof showModal;
+  hideModal?: typeof hideModal;
+  selectSong?: typeof selectSong;
 }
 
 interface ContextValue extends ContextActions {
@@ -20,6 +26,7 @@ interface ContextValue extends ContextActions {
 type Props = {
   children: ReactChild;
 };
+
 export default (
   reducer: (state: AuthState, action: AuthActions) => AuthState,
   actions: ContextActions,

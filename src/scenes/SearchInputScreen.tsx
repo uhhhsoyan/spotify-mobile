@@ -23,7 +23,7 @@ const SearchInputScreen: FC<Props> = ({ navigation }) => {
   const { state, selectSong } = useContext(AuthContext);
   const [term, setTerm] = useState('');
   const [debouncedTerm, setDebouncedTerm] = useState(term);
-  const [results, setResults] = useState(null);
+  const [results, setResults] = useState<SpotifyApi.TrackObjectFull[] | null>(null);
 
   useEffect(() => {
     const timerId = setTimeout(() => {
@@ -48,9 +48,9 @@ const SearchInputScreen: FC<Props> = ({ navigation }) => {
       setResults(data.tracks.items);
     };
     debouncedTerm === '' ? setResults(null) : search();
-  }, [debouncedTerm]);
+  }, [debouncedTerm, state.token]);
 
-  const renderResults = (results: SearchResponse) => {
+  const renderResults = (results: SpotifyApi.TrackObjectFull[] | null) => {
     if (!results) {
       return <Text style={styles.subHeader}>Recent searches</Text>;
     } else {
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.BACKGROUND,
   },
   screenHeader: {
-    backgroundColor: 'rgba(25, 25, 25, 0.8)',
+    backgroundColor: Colors.BLACK_80,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

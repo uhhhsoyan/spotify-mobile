@@ -12,7 +12,7 @@ const SongBar: FC = () => {
   const { state, playSong, pauseSong, showModal, selectSong } = useContext(AuthContext);
 
   useEffect(() => {
-    selectSong('5bHV6UowNC1YVu8LYDkUjU', state.token);
+    selectSong('5bHV6UowNC1YVu8LYDkUjU', state.token); // why only expecting 1 argument?
   }, [selectSong, state.token]);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const SongBar: FC = () => {
       interval = setInterval(async () => {
         if (state.audio) {
           const status = await state.audio.getStatusAsync();
-          setProgress(status.positionMillis);
+          setProgress(status.positionMillis); // only exists if isLoaded = true, not ifLoaded = false
         }
       }, 100);
     }
@@ -32,19 +32,25 @@ const SongBar: FC = () => {
     const getDuration = async () => {
       if (state.audio) {
         const status = await state.audio.getStatusAsync();
-        setDuration(status.durationMillis);
+        setDuration(status.durationMillis); // only exists if isLoaded = true, not ifLoaded = false
       }
     };
     getDuration();
   }, [state.audio]);
 
   const playAudio = async () => {
-    await state.audio.playAsync();
+    // added check to get around TS error for audio possibly null
+    if (state.audio) {
+      await state.audio.playAsync();
+    }
     playSong();
   };
 
   const pauseAudio = async () => {
-    await state.audio.pauseAsync();
+    // added check to get around TS error for audio possibly null
+    if (state.audio) {
+      await state.audio.pauseAsync();
+    }
     pauseSong();
   };
 
