@@ -143,8 +143,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: Colors.GRAY_VERY_LIGHT,
   },
-  timelineLabelRow: {},
-  timelineLabels: {},
   controlsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',

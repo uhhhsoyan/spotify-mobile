@@ -1,17 +1,23 @@
 import React, { FC } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+// import { BottomTabNavigationProp, BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import Icon from '../assets/icons';
 import { Colors, Typography } from '../styles';
 import { SongBar } from '../components/molecules';
-import { TabNavParamList } from './types';
+// import { TabNavParamList } from './types';
+// import { Descriptor, NavigationState, RouteProp } from '@react-navigation/native';
 
+// type Props = {
+//   state: NavigationState;
+//   descriptors: Array<Descriptor<TabNavParamList>>;
+//   navigation: BottomTabNavigationProp<TabNavParamList>;
+//   route: RouteProp<;
+// };
 type Props = {
   state: any;
   descriptors: any;
   navigation: any;
 };
-
 
 const MyTabBar: FC<Props> = ({ state, descriptors, navigation }) => {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
