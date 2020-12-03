@@ -4,13 +4,15 @@ import { CardSearch } from '../atoms';
 import { SearchCard } from '../../data';
 
 type Props = {
-  cards: Array<SearchCard>
+  cards: Array<SearchCard>;
 };
 
 const renderCards = (cards: Array<SearchCard>) => {
-  return cards.map((card, idx: number) => {
-    <CardSearch key={idx} text={card.cardTitle} color={card.cardColor} />;
-  });
+  // console.log({ cards });
+  // console.log('e');
+  return cards.map((card, idx: number) => (
+    <CardSearch key={idx} text={card.cardTitle} color={card.cardColor} />
+  ));
 };
 
 const CardSearchGrid: FC<Props> = ({ cards }) => {
